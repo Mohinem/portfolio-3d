@@ -8,7 +8,8 @@ import { Vehicle } from 'yuka';
 import { Physics, RigidBody} from "@react-three/rapier";
 
 import Lamborghini from './components/Lamborghini';
-
+import ColorfulVillage from './components/ColorfulVillage';
+import CameraFollow from "./components/CameraFollow";
 // import {lamborghini} from "../src/assets/lamborghini.gltf";
 
 
@@ -64,12 +65,7 @@ return (
         />
 
         {/* Floor */}
-        <RigidBody type="fixed">
-          <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-            <planeGeometry args={[100, 100, 100, 100]} />
-            <meshBasicMaterial color="green" />
-          </mesh>
-        </RigidBody>
+        <ColorfulVillage />
       </Physics>
 
 
