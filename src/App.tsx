@@ -7,7 +7,7 @@ import { Vehicle } from 'yuka';
 
 import { Physics, RigidBody} from "@react-three/rapier";
 
-
+import Lamborghini from './components/Lamborghini';
 
 // import {lamborghini} from "../src/assets/lamborghini.gltf";
 
@@ -18,16 +18,14 @@ return (
     
     <Canvas style={{ width: '100vw', height: '100vh' }} > 
 
-
-
-      
-
       {/* <mesh><Sky></Sky></mesh> */}
 
       {/* lamborghini = useGLTF(); */}
       <Physics gravity={[0, -9.81, 0]}>
 
-      <RigidBody><primitive object={gltf.scene} position={[0, 0.5, 0]}/></RigidBody>
+      {/* <RigidBody><primitive object={gltf.scene} position={[0, 0.5, 0]}/></RigidBody> */}
+      <Lamborghini /> 
+        {/* console.log("Katta"); */}
 
         <Sky distance={100}
           sunPosition={[0, 1, 0]} // Sun directly overhead
