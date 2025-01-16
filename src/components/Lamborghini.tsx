@@ -115,13 +115,13 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) =
   return (
     <RigidBody
       ref={rigidBodyLocalRef}
-      mass={1500}            // approximate mass (kg)
+      mass={15000}            // approximate mass (kg)
       position={[0, 1, 0]}
       colliders="hull"       
-      restitution={0.1}      // bounciness
-      friction={1.2}         // higher friction to reduce sliding
-      linearDamping={0.1}    // mild damping to slow rolling
-      angularDamping={2.0}   // helps reduce flips/spins
+      restitution={1}      // bounciness
+      friction={1.8}         // higher friction to reduce sliding
+      linearDamping={50.0}    // mild damping to slow rolling
+      angularDamping={250.0}   // helps reduce flips/spins
     >
       <primitive object={gltf.scene} ref={modelRef} castShadow />
     </RigidBody>

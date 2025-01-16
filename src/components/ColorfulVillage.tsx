@@ -558,7 +558,7 @@ export default function ColorfulVillage() {
       <RandomAnimals count={6} />
 
       {/* The Car (Lamborghini) */}
-      <Lamborghini />
+      {/* <Lamborghini /> */}
     </>
   );
 }
