@@ -63,7 +63,7 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) =
     const body = rigidBodyLocalRef.current;
 
     // Movement/turning parameters (tweak to adjust realism)
-    const forceMagnitude = 0.2;     // stronger forward/back force
+    const forceMagnitude = 0.4;     // stronger forward/back force
     const torqueMagnitude = 0.02;   // stronger turning torque
 
     // Get the car's current orientation
@@ -118,9 +118,9 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) =
       mass={15000}            // approximate mass (kg)
       position={[0, 1, 0]}
       colliders="hull"       
-      restitution={1}      // bounciness
+      restitution={5}      // bounciness
       friction={1.8}         // higher friction to reduce sliding
-      linearDamping={50.0}    // mild damping to slow rolling
+      linearDamping={30.0}    // mild damping to slow rolling
       angularDamping={250.0}   // helps reduce flips/spins
     >
       <primitive object={gltf.scene} ref={modelRef} castShadow />

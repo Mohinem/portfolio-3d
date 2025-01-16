@@ -10,7 +10,7 @@ interface CameraFollowProps {
   offset?: [number, number, number]; // [x, y, z] offset from the car
 }
 
-const CameraFollow: React.FC<CameraFollowProps> = ({ target, offset = [0, 5, 10] }) => {
+const CameraFollow: React.FC<CameraFollowProps> = ({ target, offset = [0, 8, 20] }) => {
   const { camera } = useThree();
 
   useFrame(() => {
@@ -26,10 +26,10 @@ const CameraFollow: React.FC<CameraFollowProps> = ({ target, offset = [0, 5, 10]
       // Calculate the forward direction of the car
       const forward = new Vector3(0, 0, -1).applyQuaternion(orientation);
 
-      // Desired camera position: behind and above the car
+      // Desired camera position: front of and above the car
       const desiredPosition = new Vector3()
         .copy(carPosition)
-        .add(forward.clone().multiplyScalar(-offset[2])) // Behind the car
+        .add(forward.clone().multiplyScalar(offset[2])) // Front of the car
         .add(new Vector3(offset[0], offset[1], 0));      // Above the car
 
       // Smoothly interpolate the camera's position

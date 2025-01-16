@@ -14,7 +14,7 @@ export default function App() {
     <Canvas
       style={{ width: "100vw", height: "100vh" }}
       shadows
-      camera={{ position: [0, 2, 10], fov: 40 }}
+      camera={{ position: [0, 5, 10], fov: 60 }}
     >
       <Physics gravity={[0, -9.81, 0]}>
         {/* Lamborghini car */}
