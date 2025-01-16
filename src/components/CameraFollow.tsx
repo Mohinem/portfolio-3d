@@ -14,6 +14,7 @@ const CameraFollow: React.FC<CameraFollowProps> = ({ target, offset = [0, 5, 10]
   const { camera } = useThree();
 
   useFrame(() => {
+    // debugger;
     if (target.current) {
       // Get the car's current position and rotation
       const carPosition = target.current.translation();
@@ -21,7 +22,7 @@ const CameraFollow: React.FC<CameraFollowProps> = ({ target, offset = [0, 5, 10]
 
       // Convert rotation to Quaternion
       const orientation = new Quaternion(carRotation.x, carRotation.y, carRotation.z, carRotation.w);
-
+      // debugger
       // Calculate the forward direction of the car
       const forward = new Vector3(0, 0, -1).applyQuaternion(orientation);
 
@@ -37,6 +38,7 @@ const CameraFollow: React.FC<CameraFollowProps> = ({ target, offset = [0, 5, 10]
       // Make the camera look at the car's position
       camera.lookAt(carPosition.x, carPosition.y, carPosition.z);
     }
+    
   });
 
   return null; // This component doesn't render anything

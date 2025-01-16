@@ -1,56 +1,46 @@
-import { Canvas, useLoader  } from "@react-three/fiber";
-import { PlaneGeometry } from "three";
-import { OrbitControls, Stage, Sky, Cloud, useGLTF } from "@react-three/drei";
-// import {  } from "three";
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { Vehicle } from 'yuka';
-
-import { Physics, RigidBody} from "@react-three/rapier";
+import { Canvas } from "@react-three/fiber";
+import { Sky, OrbitControls } from "@react-three/drei";
+import { useRef } from "react";
+import { Physics, RapierRigidBody } from "@react-three/rapier";
 
 import Lamborghini from './components/Lamborghini';
 import ColorfulVillage from './components/ColorfulVillage';
 import CameraFollow from "./components/CameraFollow";
-// import {lamborghini} from "../src/assets/lamborghini.gltf";
-
 
 export default function App() {
-  const gltf = useLoader(GLTFLoader, "../src/assets/lamborghini_urus_car_gltf/scene.gltf");
-return (
-    
-    <Canvas style={{ width: '100vw', height: '100vh' }} > 
+  const carRef = useRef<RapierRigidBody>(null);
 
-      {/* <mesh><Sky></Sky></mesh> */}
-
-      {/* lamborghini = useGLTF(); */}
+  return (
+    <Canvas
+      style={{ width: "100vw", height: "100vh" }}
+      shadows
+      camera={{ position: [0, 2, 10], fov: 40 }}
+    >
       <Physics gravity={[0, -9.81, 0]}>
+        {/* Lamborghini car */}
+        <Lamborghini ref={carRef} />
 
-      {/* <RigidBody><primitive object={gltf.scene} position={[0, 0.5, 0]}/></RigidBody> */}
-      <Lamborghini /> 
-        {/* console.log("Katta"); */}
-
-        <Sky distance={100}
-          sunPosition={[0, 1, 0]} // Sun directly overhead
-          inclination={0} // Sun at zenith
-          azimuth={0.25} // Sun in the south
-          turbidity={10} // Low turbidity for clear sky
-          rayleigh={0.9} // Enhances blue scattering
+        {/* Sky setup
+        <Sky
+          distance={100}
+          sunPosition={[0, 1, 0]}
+          inclination={0}
+          azimuth={0.25}
+          turbidity={10}
+          rayleigh={0.9}
           mieCoefficient={0.005}
-          mieDirectionalG={0.8} />
+          mieDirectionalG={0.8}
+        /> */}
 
-        {/*Cloud mesh */}
-        {/* <mesh><Cloud color = "pink" position={[30, 5, 40]}></Cloud> </mesh> */}
-
-        <mesh></mesh>
-        
-        {/* Orbit Controls with Restricted Polar Angles */}
+        {/* Orbit controls */}
         <OrbitControls
-          minPolarAngle={Math.PI / 3.3} // Allow looking straight up
-          maxPolarAngle={Math.PI / 3} // Prevent looking below the horizon
-          enablePan={false} // Optional: Disable panning if not needed
-          enableZoom={true} // Optional: Allow zooming
+          minPolarAngle={Math.PI / 3.3}
+          maxPolarAngle={Math.PI / 3}
+          enablePan={false}
+          enableZoom={true}
         />
 
-        {/* Directional Light: Simulates sunlight */}
+        {/* Directional light */}
         <directionalLight
           position={[10, 10, 5]}
           intensity={1}
@@ -64,11 +54,15 @@ return (
           shadow-camera-bottom={-10}
         />
 
+        {/* Camera Follow */}
+        
+
         {/* Floor */}
         <ColorfulVillage />
+
+        <CameraFollow target={carRef} offset={[0, 5, 10]} />
+        
       </Physics>
-
-
     </Canvas>
-);
+  );
 }
