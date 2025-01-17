@@ -1,8 +1,16 @@
-import React, { useMemo } from "react";
+// src/components/ColorfulVillage.tsx
+
+import React, { useMemo, useState } from "react";
 import { RigidBody } from "@react-three/rapier";
 import * as THREE from "three";
 import { Vector3 } from "three";
-import Lamborghini from "./Lamborghini"; // <--- We'll use the Lamborghini model here
+import Lamborghini from "./Lamborghini"; // Ensure this path is correct
+import MusicBuilding from "./MusicBuilding"; // Updated import
+import MusicPlayer from "./MusicPlayer"; // Updated import
+
+type ColorfulVillageProps = {
+  onOpenMusicPlayer: () => void; // Handler prop
+};
 
 /**
  * Utility: Creates a CanvasTexture by drawing on an in-memory <canvas>.
@@ -54,7 +62,7 @@ function useImprovedGrassTexture() {
           ctx.fillRect(x, y, 1, 1);
         }
 
-        // 3) Subtle radial shading
+        // 3) Subtle radial shading for depth
         ctx.save();
         ctx.globalAlpha = 0.2;
         const radialGrad = ctx.createRadialGradient(
@@ -71,7 +79,7 @@ function useImprovedGrassTexture() {
         ctx.fillRect(0, 0, size, size);
         ctx.restore();
 
-        // 4) Horizontal streaks
+        // 4) Horizontal streaks for texture
         ctx.globalAlpha = 0.15;
         ctx.strokeStyle = "rgba(0, 60, 0, 0.3)";
         ctx.lineWidth = 2;
@@ -95,14 +103,14 @@ function useImprovedLeavesTexture() {
     return createCanvasTexture(
       1024,
       (ctx, size) => {
-        // A gentle vertical gradient
+        // Gentle vertical gradient
         const grad = ctx.createLinearGradient(0, 0, 0, size);
         grad.addColorStop(0, "#1e7f39");
         grad.addColorStop(1, "#4caf50");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // Specks
+        // Add specks for realism
         for (let i = 0; i < size * 160; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
@@ -126,7 +134,7 @@ function useImprovedBarkTexture() {
       ctx.fillStyle = "#8d6e63";
       ctx.fillRect(0, 0, size, size);
 
-      // Vertical ridges with random wiggle
+      // Vertical ridges with random wiggle for texture
       ctx.strokeStyle = "#5d4037";
       ctx.lineWidth = 3;
       for (let i = 0; i < 100; i++) {
@@ -140,7 +148,7 @@ function useImprovedBarkTexture() {
         ctx.stroke();
       }
 
-      // Dark spots (knots)
+      // Dark spots (knots) for added detail
       for (let i = 0; i < 600; i++) {
         const x = Math.random() * size;
         const y = Math.random() * size;
@@ -161,12 +169,12 @@ function useImprovedWaterTexture() {
       (ctx, size) => {
         // Base gradient: deeper at top, lighter at bottom
         const grad = ctx.createLinearGradient(0, 0, 0, size);
-        grad.addColorStop(0, "#1565c0"); // deeper
-        grad.addColorStop(1, "#4fc3f7"); // lighter
+        grad.addColorStop(0, "#1565c0"); // Deeper water
+        grad.addColorStop(1, "#4fc3f7"); // Lighter water
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // Wavy lines
+        // Wavy lines to simulate water movement
         ctx.strokeStyle = "rgba(255,255,255,0.4)";
         ctx.lineWidth = 2;
         for (let i = 0; i < 160; i++) {
@@ -182,7 +190,7 @@ function useImprovedWaterTexture() {
           ctx.stroke();
         }
 
-        // foam patches
+        // Foam patches for realism
         for (let i = 0; i < 160; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
@@ -208,13 +216,13 @@ function useImprovedAnimalTexture() {
         ctx.fillStyle = `hsl(${Math.random() * 60}, 50%, 75%)`;
         ctx.fillRect(0, 0, size, size);
 
-        // stripes/spots combo
+        // Stripes/spots combo
         ctx.globalAlpha = 0.6;
         ctx.strokeStyle = "#000";
         ctx.fillStyle = "#000";
         ctx.lineWidth = 3;
 
-        // random stripes
+        // Random stripes for pattern
         for (let y = 0; y < size; y += 20) {
           ctx.beginPath();
           ctx.moveTo(0, y + Math.random() * 5);
@@ -226,7 +234,8 @@ function useImprovedAnimalTexture() {
           }
           ctx.stroke();
         }
-        // random spots
+
+        // Random spots for additional detail
         for (let i = 0; i < 1200; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
@@ -248,15 +257,14 @@ function useImprovedMountainTexture() {
     return createCanvasTexture(
       2048,
       (ctx, size) => {
-        // We'll start with white at top (snow),
-        // fade to gray near the bottom
+        // Gradient from white (snow) to gray (rocky)
         const grad = ctx.createLinearGradient(0, 0, 0, size);
-        grad.addColorStop(0, "#ffffff"); // top: snowy
-        grad.addColorStop(1, "#8d8d8d"); // bottom: rocky
+        grad.addColorStop(0, "#ffffff"); // Top: snowy
+        grad.addColorStop(1, "#8d8d8d"); // Bottom: rocky
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // add noise
+        // Add noise for texture
         for (let i = 0; i < size * 2500; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
@@ -265,7 +273,7 @@ function useImprovedMountainTexture() {
           ctx.fillRect(x, y, 1, 1);
         }
 
-        // random cracks (horizontal lines)
+        // Random cracks to simulate rocky surfaces
         ctx.strokeStyle = "rgba(0,0,0,0.1)";
         for (let i = 0; i < 200; i++) {
           let x = 0;
@@ -355,17 +363,11 @@ function useUltraSmoothMountains(
 
 /**
  * -----------------------------------------
- * 3) The Car - We now import & use <Lamborghini />
+ * 3) Adding Clouds in the sky
  * -----------------------------------------
  */
-
-/**
- * -----------------------------------------
- * 4) Adding Clouds in the sky
- * -----------------------------------------
- */
-function Clouds({ count = 10 }) {
-  const clouds = React.useMemo(() => {
+function Clouds({ count = 10 }: { count?: number }) {
+  const clouds = useMemo(() => {
     const temp: { x: number; y: number; z: number; scale: number }[] = [];
     for (let i = 0; i < count; i++) {
       temp.push({
@@ -409,10 +411,167 @@ function Clouds({ count = 10 }) {
 
 /**
  * -----------------------------------------
+ * 4) Other Components (WaterPlane, RandomAnimals, SmoothTrees, Mountains, Sun)
+ * -----------------------------------------
+ */
+
+function WaterPlane({ waterTex }: { waterTex: THREE.CanvasTexture }) {
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
+      <planeGeometry args={[800, 800]} />
+      <meshStandardMaterial
+        map={waterTex}
+        roughness={0.2}
+        metalness={0}
+        transparent
+        opacity={0.95}
+      />
+    </mesh>
+  );
+}
+
+function RandomAnimals({
+  count = 6,
+  animalTex,
+}: {
+  count?: number;
+  animalTex: THREE.CanvasTexture;
+}) {
+  const arr = useMemo(() => {
+    const temp: { position: [number, number, number] }[] = [];
+    for (let i = 0; i < count; i++) {
+      temp.push({
+        position: [
+          (Math.random() - 0.5) * 80,
+          2 + Math.random() * 2,
+          (Math.random() - 0.5) * 80,
+        ],
+      });
+    }
+    return temp;
+  }, [count]);
+
+  return (
+    <>
+      {arr.map((animal, i) => (
+        <RigidBody
+          key={i}
+          type="dynamic"
+          colliders="cuboid"
+          position={animal.position}
+        >
+          <mesh castShadow>
+            <boxGeometry args={[1.5, 1.5, 1.5]} />
+            <meshStandardMaterial
+              map={animalTex}
+              roughness={0.8}
+              metalness={0}
+            />
+          </mesh>
+        </RigidBody>
+      ))}
+    </>
+  );
+}
+
+function SmoothTrees({
+  count = 15,
+  barkTex,
+  leavesTex,
+}: {
+  count?: number;
+  barkTex: THREE.CanvasTexture;
+  leavesTex: THREE.CanvasTexture;
+}) {
+  const trees = useMemo(() => {
+    const data: {
+      x: number;
+      z: number;
+      trunkH: number;
+      foliageH: number;
+    }[] = [];
+    for (let i = 0; i < count; i++) {
+      data.push({
+        x: (Math.random() - 0.5) * 80,
+        z: (Math.random() - 0.5) * 80,
+        trunkH: 2 + Math.random() * 1,
+        foliageH: 4 + Math.random() * 2,
+      });
+    }
+    return data;
+  }, [count]);
+
+  return (
+    <>
+      {trees.map((t, i) => (
+        <group key={i} position={[t.x, 0, t.z]}>
+          {/* Trunk */}
+          <RigidBody type="fixed">
+            <mesh castShadow position={[0, t.trunkH / 2, 0]}>
+              <cylinderGeometry args={[0.3, 0.3, t.trunkH, 12]} />
+              <meshStandardMaterial
+                map={barkTex}
+                roughness={0.9}
+                metalness={0}
+              />
+            </mesh>
+          </RigidBody>
+          {/* Foliage (cone) */}
+          <RigidBody type="fixed">
+            <mesh castShadow position={[0, t.trunkH + t.foliageH / 2, 0]}>
+              <coneGeometry args={[1.8, t.foliageH, 8]} />
+              <meshStandardMaterial
+                map={leavesTex}
+                roughness={0.9}
+                metalness={0}
+              />
+            </mesh>
+          </RigidBody>
+        </group>
+      ))}
+    </>
+  );
+}
+
+function Mountains({
+  mountainGeo,
+  mountainTex,
+}: {
+  mountainGeo: THREE.PlaneGeometry;
+  mountainTex: THREE.CanvasTexture;
+}) {
+  return (
+    <RigidBody type="fixed" colliders="trimesh" position={[0, -2, 0]}>
+      <mesh geometry={mountainGeo} receiveShadow castShadow>
+        <meshStandardMaterial
+          map={mountainTex}
+          roughness={0.8}
+          metalness={0.1}
+        />
+      </mesh>
+    </RigidBody>
+  );
+}
+
+function Sun() {
+  // A bright directional light from above
+  return (
+    <directionalLight
+      intensity={2}
+      position={[50, 100, 50]}
+      castShadow
+      shadow-mapSize-width={2048}
+      shadow-mapSize-height={2048}
+    />
+  );
+}
+
+/**
+ * -----------------------------------------
  * 5) The main scene: ColorfulVillage
  * -----------------------------------------
  */
-export default function ColorfulVillage() {
+const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer }) => {
   // Load up all “improved” textures
   const grassTex = useImprovedGrassTexture();
   const leavesTex = useImprovedLeavesTexture();
@@ -427,138 +586,53 @@ export default function ColorfulVillage() {
   // Fewer mountains geometry (with snow at top)
   const mountainGeo = useUltraSmoothMountains(200, 200, 100, 15);
 
-  function WaterPlane() {
-    return (
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
-        <planeGeometry args={[800, 800]} />
-        <meshStandardMaterial
-          map={waterTex}
-          roughness={0.2}
-          metalness={0}
-          transparent
-          opacity={0.95}
-        />
-      </mesh>
-    );
-  }
-
-  function RandomAnimals({ count = 6 }) {
-    const arr = React.useMemo(() => {
-      const temp: { position: [number, number, number] }[] = [];
-      for (let i = 0; i < count; i++) {
-        temp.push({
-          position: [
-            (Math.random() - 0.5) * 80,
-            2 + Math.random() * 2,
-            (Math.random() - 0.5) * 80,
-          ],
-        });
-      }
-      return temp;
-    }, [count]);
-
-    return (
-      <>
-        {arr.map((animal, i) => (
-          <RigidBody
-            key={i}
-            type="dynamic"
-            colliders="cuboid"
-            position={animal.position}
-          >
-            <mesh castShadow>
-              <boxGeometry args={[1.5, 1.5, 1.5]} />
-              <meshStandardMaterial map={animalTex} roughness={0.8} metalness={0} />
-            </mesh>
-          </RigidBody>
-        ))}
-      </>
-    );
-  }
-
-  function SmoothTrees({ count = 15 }) {
-    const trees = React.useMemo(() => {
-      const data: {
-        x: number;
-        z: number;
-        trunkH: number;
-        foliageH: number;
-      }[] = [];
-      for (let i = 0; i < count; i++) {
-        data.push({
-          x: (Math.random() - 0.5) * 80,
-          z: (Math.random() - 0.5) * 80,
-          trunkH: 2 + Math.random() * 1,
-          foliageH: 4 + Math.random() * 2,
-        });
-      }
-      return data;
-    }, [count]);
-
-    return (
-      <>
-        {trees.map((t, i) => (
-          <group key={i} position={[t.x, 0, t.z]}>
-            {/* trunk */}
-            <RigidBody type="fixed">
-              <mesh castShadow position={[0, t.trunkH / 2, 0]}>
-                <cylinderGeometry args={[0.3, 0.3, t.trunkH, 12]} />
-                <meshStandardMaterial map={barkTex} roughness={0.9} metalness={0} />
-              </mesh>
-            </RigidBody>
-            {/* foliage (cone) */}
-            <RigidBody type="fixed">
-              <mesh castShadow position={[0, t.trunkH + t.foliageH / 2, 0]}>
-                <coneGeometry args={[1.8, t.foliageH, 8]} />
-                <meshStandardMaterial map={leavesTex} roughness={0.9} metalness={0} />
-              </mesh>
-            </RigidBody>
-          </group>
-        ))}
-      </>
-    );
-  }
-
-  function Mountains() {
-    return (
-      <RigidBody type="fixed" colliders="trimesh" position={[0, -2, 0]}>
-        <mesh geometry={mountainGeo} receiveShadow castShadow>
-          <meshStandardMaterial map={mountainTex} roughness={0.8} metalness={0.1} />
-        </mesh>
-      </RigidBody>
-    );
-  }
-
-  function Sun() {
-    // A bright directional light from above
-    return (
-      <directionalLight
-        intensity={2}
-        position={[50, 100, 50]}
-        castShadow
-        shadow-mapSize-width={2048}
-        shadow-mapSize-height={2048}
-      />
-    );
-  }
+  // State to manage music player visibility
+  const [isMusicPlayerOpen, setMusicPlayerOpen] = useState(false);
 
   return (
     <>
+      {/* Lighting and Environmental Elements */}
       <Sun />
       <ambientLight intensity={0.3} />
       <Clouds count={5} />
-      <Mountains />
+      <Mountains mountainGeo={mountainGeo} mountainTex={mountainTex} />
+
+      {/* Ground Plane */}
       <RigidBody type="fixed" colliders="trimesh">
         <mesh geometry={groundGeo} receiveShadow castShadow>
-          <meshStandardMaterial map={grassTex} roughness={0.8} metalness={0.1} />
+          <meshStandardMaterial
+            map={grassTex}
+            roughness={0.8}
+            metalness={0.1}
+          />
         </mesh>
       </RigidBody>
-      <WaterPlane />
-      <SmoothTrees count={20} />
-      <RandomAnimals count={6} />
+
+      {/* Water Body */}
+      <WaterPlane waterTex={waterTex} />
+
+      {/* Trees */}
+      <SmoothTrees count={20} barkTex={barkTex} leavesTex={leavesTex} />
+
+      {/* Animals */}
+      <RandomAnimals count={6} animalTex={animalTex} />
 
       {/* The Car (Lamborghini) */}
       {/* <Lamborghini /> */}
+
+      {/* Music Building */}
+      <MusicBuilding
+        position={[10, 0, -20]} // Specify desired position here
+        scale={[5, 5, 5]} // Adjust scale as needed
+        onClick={onOpenMusicPlayer} // Pass the handler
+      />
+
+      {/* Music Player UI
+      {isMusicPlayerOpen && (
+        <MusicPlayer onClose={() => setMusicPlayerOpen(false)} />
+      )} */}
     </>
   );
-}
+};
+
+export default ColorfulVillage;
