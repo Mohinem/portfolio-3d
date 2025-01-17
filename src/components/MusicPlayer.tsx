@@ -1,6 +1,7 @@
 // src/components/MusicPlayer.tsx
 
 import React from "react";
+import styles from "../styles/sharedStyles.module.css"; // Import shared styles
 
 type MusicPlayerProps = {
   onClose: () => void;
@@ -18,20 +19,29 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ onClose /*, trackUrl */ }) =>
   const encodedUrl = encodeURIComponent(soundCloudUrl);
 
   // Construct the embed URL
-  const embedUrl = `https://w.soundcloud.com/player/?url=https://soundcloud.com/mohinem-rap-master/beginning&color=%23ff5500&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true`;
+  const embedUrl = `https://w.soundcloud.com/player/?url=${encodedUrl}&color=%23ff5500&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=true`;
+
+  //
+  console.log(styles);
 
   return (
-    <div style={overlayStyle}>
-      <div style={playerContainerStyle}>
+    <div className={styles.fancyContainer}>
+      <div className={styles.playerContainer}>
         {/* Close Button */}
-        <button onClick={onClose} style={closeButtonStyle}>
+        <button onClick={onClose} className={styles.closeButton} aria-label="Close Music Player">
           &times;
         </button>
+        {/* Title Section */}
+        <h2 className={styles.funkyTitle}>Chill Beats Playlist</h2>
+        {/* Description Section */}
+        <p className={styles.funkyDescription}>
+          Dive into our curated selection of chill beats to relax, study, or unwind after a long day. Enjoy seamless streaming and let the music take you away.
+        </p>
         {/* SoundCloud Widget */}
         <iframe
           title="SoundCloud Player"
           width="100%"
-          height="166" // Default height; adjust as needed
+          height="166"
           scrolling="no"
           frameBorder="no"
           allow="autoplay"
