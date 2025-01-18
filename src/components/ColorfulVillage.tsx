@@ -558,7 +558,7 @@ function Sun() {
   return (
     <directionalLight
       intensity={2}
-      position={[50, 100, 50]}
+      position={[50, 100, -50]}
       castShadow
       shadow-mapSize-width={2048}
       shadow-mapSize-height={2048}
@@ -622,8 +622,9 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer }) 
 
       {/* Music Building */}
       <MusicBuilding
-        position={[10, 0, -20]} // Specify desired position here
-        scale={[5, 5, 5]} // Adjust scale as needed
+        position={[8, 0, 2]} // Specify desired position here
+        scale={[6, 6, 6]} // Adjust scale as needed
+        rotation={[0, Math.PI / 2, 0]} // Rotate position as needed
         onClick={onOpenMusicPlayer} // Pass the handler
       />
 

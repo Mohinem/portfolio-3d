@@ -63,7 +63,7 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) =
     const body = rigidBodyLocalRef.current;
 
     // Movement/turning parameters (tweak to adjust realism)
-    const forceMagnitude = 0.4;     // stronger forward/back force
+    const forceMagnitude = 0.6;     // stronger forward/back force
     const torqueMagnitude = 0.02;   // stronger turning torque
 
     // Get the car's current orientation

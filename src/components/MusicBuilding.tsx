@@ -10,6 +10,7 @@ import * as THREE from "three";
 type MusicBuildingProps = {
   position: [number, number, number];
   scale?: [number, number, number];
+  rotation?: [number, number, number];
   onClick: () => void;
 };
 
@@ -26,9 +27,10 @@ type GLTFResult = GLTF & {
 const MusicBuilding: React.FC<MusicBuildingProps> = ({
   position,
   scale = [1, 1, 1],
+  rotation = [0, 0, 0],
   onClick,
 }) => {
-  // Load the GLB model from the public directory
+  // Load the GLB model from the assets directory
   const gltf = useGLTF("../src/assets/buildings/music-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
@@ -36,8 +38,8 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
 
   return (
     <RigidBody type="fixed" colliders="trimesh" position={position}>
-      {/* Clickable Group */}
-      <group onClick={onClick} scale={scale}>
+      {/* Clickable Group with Rotation and Scale */}
+      <group onClick={onClick} scale={scale} rotation={rotation}>
         {/* Render the loaded GLTF scene */}
         <primitive object={gltf.scene} />
       </group>
