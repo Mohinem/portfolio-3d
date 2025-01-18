@@ -1,3 +1,5 @@
+// src/components/Lamborghini.tsx
+
 import React, {
   useEffect,
   useRef,
@@ -5,7 +7,7 @@ import React, {
   MutableRefObject
 } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { RigidBody, RapierRigidBody } from "@react-three/rapier";
 import { Group, Vector3, Quaternion } from "three";
 
@@ -34,6 +36,13 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) =
       }
     }
   }, [ref]);
+
+  // **Directly assign userData**
+  useEffect(() => {
+    if (rigidBodyLocalRef.current) {
+      rigidBodyLocalRef.current.userData = "car"; // Correct assignment
+    }
+  }, []);
 
   // Track pressed keys
   const keysPressed = useRef<{ [key: string]: boolean }>({});
@@ -117,11 +126,11 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) =
       ref={rigidBodyLocalRef}
       mass={15000}            // approximate mass (kg)
       position={[0, 1, 0]}
-      colliders="hull"       
-      restitution={5}      // bounciness
-      friction={1.8}         // higher friction to reduce sliding
+      colliders="hull"
+      restitution={5}         // bounciness
+      friction={1.8}          // higher friction to reduce sliding
       linearDamping={30.0}    // mild damping to slow rolling
-      angularDamping={250.0}   // helps reduce flips/spins
+      angularDamping={250.0}  // helps reduce flips/spins
     >
       <primitive object={gltf.scene} ref={modelRef} castShadow />
     </RigidBody>

@@ -626,6 +626,7 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer }) 
         scale={[6, 6, 6]} // Adjust scale as needed
         rotation={[0, Math.PI / 2, 0]} // Rotate position as needed
         onClick={onOpenMusicPlayer} // Pass the handler
+        onCollisionWithCar={onOpenMusicPlayer} // Pass the handler for collision
       />
 
       {/* Music Player UI
