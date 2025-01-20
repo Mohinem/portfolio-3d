@@ -127,7 +127,7 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) =
       mass={15000}            // approximate mass (kg)
       position={[0, 1, 0]}
       colliders="hull"
-      restitution={5}         // bounciness
+      restitution={0.5}         // bounciness
       friction={1.8}          // higher friction to reduce sliding
       linearDamping={30.0}    // mild damping to slow rolling
       angularDamping={250.0}  // helps reduce flips/spins

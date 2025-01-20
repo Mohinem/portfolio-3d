@@ -7,12 +7,15 @@ import Lamborghini from './components/Lamborghini';
 import ColorfulVillage from './components/ColorfulVillage';
 import CameraFollow from "./components/CameraFollow";
 import MusicPlayer from "./components/MusicPlayer"; // Import MusicPlayer
-
+import AboutMeMenu from "./components/AboutMeMenu"; // Import about me menu
+ 
 const App: React.FC = () => {
   const carRef = useRef<RapierRigidBody>(null);
     // State to manage MusicPlayer visibility
     const [isMusicPlayerOpen, setMusicPlayerOpen] = useState(false);
 
+    // State to manage AboutMeMenu visibility
+    const [isAboutMeMenuOpen, setAboutMeMenuOpen] = useState(false);
   return (
     <>
       <Canvas
@@ -62,7 +65,9 @@ const App: React.FC = () => {
           
 
           {/* Main Scene */}
-          <ColorfulVillage onOpenMusicPlayer={() => setMusicPlayerOpen(true)} />
+          <ColorfulVillage onOpenMusicPlayer={() => setMusicPlayerOpen(true)} 
+            onOpenAboutMeMenu={() => setAboutMeMenuOpen(true)}
+          />
 
           <CameraFollow target={carRef} offset={[0, 5, 10]} />
           
@@ -73,6 +78,12 @@ const App: React.FC = () => {
       {isMusicPlayerOpen && (
         <MusicPlayer onClose={() => setMusicPlayerOpen(false)} />
       )}
+
+      {/* About Me Menu UI - Rendered Outside Canvas */}
+        {isAboutMeMenuOpen && (
+        <AboutMeMenu onClose={() => setAboutMeMenuOpen(false)} />
+      )}
+
     </>
   );
 }

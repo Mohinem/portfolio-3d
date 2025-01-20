@@ -7,9 +7,12 @@ import { Vector3 } from "three";
 import Lamborghini from "./Lamborghini"; // Ensure this path is correct
 import MusicBuilding from "./MusicBuilding"; // Updated import
 import MusicPlayer from "./MusicPlayer"; // Updated import
+import AboutMeBuilding from "./AboutMeBuilding";
+import AboutMeMenu from "./AboutMeMenu";
 
 type ColorfulVillageProps = {
   onOpenMusicPlayer: () => void; // Handler prop
+  onOpenAboutMeMenu: () => void; // Handler prop
 };
 
 /**
@@ -571,7 +574,7 @@ function Sun() {
  * 5) The main scene: ColorfulVillage
  * -----------------------------------------
  */
-const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer }) => {
+const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu }) => {
   // Load up all “improved” textures
   const grassTex = useImprovedGrassTexture();
   const leavesTex = useImprovedLeavesTexture();
@@ -627,6 +630,15 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer }) 
         rotation={[0, Math.PI / 2, 0]} // Rotate position as needed
         onClick={onOpenMusicPlayer} // Pass the handler
         onCollisionWithCar={onOpenMusicPlayer} // Pass the handler for collision
+      />
+
+      {/* About Me Building */}
+      <AboutMeBuilding
+        position={[0, 0, 10]} // Specify desired position here
+        scale={[0.005, 0.005, 0.005]} // Adjust scale as needed
+        rotation={[0, Math.PI, 0]} // Rotate position as needed
+        onClick={onOpenAboutMeMenu} // Pass the handler
+        onCollisionWithCar={onOpenAboutMeMenu} // Pass the handler for collision
       />
 
       {/* Music Player UI
