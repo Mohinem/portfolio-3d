@@ -9,6 +9,7 @@ import CameraFollow from "./components/CameraFollow";
 import MusicPlayer from "./components/MusicPlayer"; // Import MusicPlayer
 import AboutMeMenu from "./components/AboutMeMenu"; // Import About Me menu
 import EducationMenu from "./components/EducationMenu"; // Import Education menu
+import ExperienceMenu from "./components/ExperienceMenu"; // Import Experience menu
  
 const App: React.FC = () => {
   const carRef = useRef<RapierRigidBody>(null);
@@ -20,6 +21,9 @@ const App: React.FC = () => {
 
     // State to manage EducationMenu visibility
     const [isEducationMenuOpen, setEducationMenuOpen] = useState(false);
+
+    // State to manage ExperienceMenu visibility
+    const [isExperienceMenuOpen, setExperienceMenuOpen] = useState(false);
   return (
     <>
       <Canvas
@@ -72,6 +76,7 @@ const App: React.FC = () => {
           <ColorfulVillage onOpenMusicPlayer={() => setMusicPlayerOpen(true)} 
             onOpenAboutMeMenu={() => setAboutMeMenuOpen(true)}
             onOpenEducationMenu={() => setEducationMenuOpen(true)}
+            onOpenExperienceMenu={() => setExperienceMenuOpen(true)}
           />
 
           <CameraFollow target={carRef} offset={[0, 5, 10]} />
@@ -92,6 +97,11 @@ const App: React.FC = () => {
       {/* Education Menu UI - Rendered Outside Canvas */}
       {isEducationMenuOpen && (
         <EducationMenu onClose={() => setEducationMenuOpen(false)} />
+      )}
+
+      {/* Education Menu UI - Rendered Outside Canvas */}
+      {isExperienceMenuOpen && (
+        <ExperienceMenu onClose={() => setExperienceMenuOpen(false)} />
       )}
 
     </>

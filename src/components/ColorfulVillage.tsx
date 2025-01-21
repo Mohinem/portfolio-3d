@@ -10,13 +10,16 @@ import MusicPlayer from "./MusicPlayer"; // Updated import
 import AboutMeBuilding from "./AboutMeBuilding";
 import AboutMeMenu from "./AboutMeMenu";
 import EducationBuilding from "./EducationBuilding";
-import EducationMenu from "./AboutMeMenu";
+import EducationMenu from "./EducationMenu";
+import ExperienceBuilding from "./ExperienceBuilding";
+import ExperienceMenu from "./ExperienceMenu";
 
 
 type ColorfulVillageProps = {
   onOpenMusicPlayer: () => void; // Handler prop
   onOpenAboutMeMenu: () => void; // Handler prop
   onOpenEducationMenu: () => void; // Handler prop
+  onOpenExperienceMenu: () => void; // Handler prop
 };
 
 /**
@@ -578,7 +581,7 @@ function Sun() {
  * 5) The main scene: ColorfulVillage
  * -----------------------------------------
  */
-const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu, onOpenEducationMenu }) => {
+const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu, onOpenEducationMenu, onOpenExperienceMenu }) => {
   // Load up all “improved” textures
   const grassTex = useImprovedGrassTexture();
   const leavesTex = useImprovedLeavesTexture();
@@ -653,6 +656,15 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
         onClick={onOpenEducationMenu} // Pass the handler
         onCollisionWithCar={onOpenEducationMenu} // Pass the handler for collision
       />
+
+        {/* Experience Building */}
+        <ExperienceBuilding
+        position={[-6, 0, 1.8]} // Specify desired position here
+        scale={[0.00095, 0.00095, 0.00095]} // Adjust scale as needed
+        rotation={[0, Math.PI, 0]} // Rotate position as needed
+        onClick={onOpenExperienceMenu} // Pass the handler
+        onCollisionWithCar={onOpenExperienceMenu} // Pass the handler for collision
+      />      
 
 
       {/* Music Player UI
