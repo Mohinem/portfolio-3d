@@ -1,4 +1,4 @@
-// src/components/MusicBuilding.tsx
+// src/components/EducationBuilding.tsx
 
 import React, { useRef, useState, useMemo } from "react";
 import { RigidBody } from "@react-three/rapier";
@@ -7,7 +7,7 @@ import { GLTF } from "three-stdlib";
 import * as THREE from "three";
 import { useFrame, useThree } from "@react-three/fiber";
 
-type MusicBuildingProps = {
+type EducationBuildingProps = {
   position: [number, number, number];
   scale?: [number, number, number];
   rotation?: [number, number, number];
@@ -33,7 +33,7 @@ interface CollisionHandlerEvent {
   };
 }
 
-const MusicBuilding: React.FC<MusicBuildingProps> = ({
+const EducationBuilding: React.FC<EducationBuildingProps> = ({
   position,
   scale = [1, 1, 1],
   rotation = [0, 0, 0],
@@ -41,10 +41,10 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
   onCollisionWithCar,
 }) => {
   // Load the GLB model from the assets directory
-  const gltf = useGLTF("../src/assets/buildings/music-building.glb") as GLTFResult;
+  const gltf = useGLTF("../src/assets/buildings/education-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
-  console.log("MusicBuilding loaded:", gltf);
+  console.log("EducationBuilding loaded:", gltf);
 
   // **Handle collision events without using hasCollided**
   const handleCollisionEnter = (event: CollisionHandlerEvent) => {
@@ -58,13 +58,13 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
   const textRef = useRef<THREE.Object3D>(null);
   const { camera } = useThree();
   const hoverSpeed = 1; // Speed of the floating motion
-  const hoverAmplitude = 0.0003; // Height of the floating motion
+  const hoverAmplitude = 0.1; // Height of the floating motion
 
   // **Define the base Y position based on the building's height**
-  const baseYPosition = 5; // Example: 0.7 units above the group's origin
+  const baseYPosition = 5; // Adjusted to position the text above the building
 
   // **Animate the text and make it face the camera**
-  useFrame((state, delta) => {
+  useFrame((state) => {
     if (textRef.current) {
       // Floating animation with adjusted base y-position
       textRef.current.position.y =
@@ -127,13 +127,12 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
             scale={[1.05, 1.05, 1.05]} // Slightly larger scale for the outline
           />
         )}
-
       </group>
 
-      {/* "Music" Text Label */}
+      {/* "Education" Text Label */}
       <Text
         ref={textRef}
-        position={[0, baseYPosition, 0]} // Adjust Y value to place the text above the building
+        position={[-1, baseYPosition, 1]} // Adjust Y value to place the text above the building
         font="/fonts/Montserrat-SemiBold.ttf" // Path to the font file in the public directory
         fontSize={0.7} // Adjusted font size for visibility
         color="#FFD700" // Gold color for the text
@@ -143,14 +142,13 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
         outlineColor="#000000" // Black outline to contrast with gold
         material-toneMapped={false} // Prevent color alteration
       >
-        Music
+        Education
       </Text>
-
     </RigidBody>
   );
 };
 
 // Preload the GLTF model for performance optimization
-useGLTF.preload("../src/assets/buildings/music-building.glb");
+useGLTF.preload("../src/assets/buildings/education-building.glb");
 
-export default MusicBuilding;
+export default EducationBuilding;

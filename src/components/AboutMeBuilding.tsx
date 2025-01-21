@@ -61,7 +61,7 @@ const AboutMeBuilding: React.FC<AboutMeBuildingProps> = ({
   const hoverAmplitude = 0.1; // Height of the floating motion
 
   // **Define the base Y position based on the building's height**
-  const baseYPosition = 900; // Adjusted to position the text above the building
+  const baseYPosition = 5; // Adjusted to position the text above the building
 
   // **Animate the text and make it face the camera**
   useFrame((state) => {
@@ -128,22 +128,23 @@ const AboutMeBuilding: React.FC<AboutMeBuildingProps> = ({
           />
         )}
 
-        {/* "About Me" Text Label */}
-        <Text
-          ref={textRef}
-          position={[-350, baseYPosition, 0]} // Adjust Y value to place the text above the building
-          font="/fonts/Montserrat-SemiBold.ttf" // Path to the font file in the public directory
-          fontSize={70} // Required font size for visibility
-          color="#FFD700" // Gold color for the text
-          anchorX="center" // Horizontal alignment
-          anchorY="top-baseline" // Vertical alignment
-          outlineWidth={10} // Outline width for better visibility
-          outlineColor="#000000" // Black outline to contrast with gold
-          material-toneMapped={false} // Prevent color alteration
-        >
-          About Me
-        </Text>
       </group>
+
+      {/* "About Me" Text Label */}
+      <Text
+        ref={textRef}
+        position={[1.8, baseYPosition, 0]} // Adjust Y value to place the text above the building
+        font="/fonts/Montserrat-SemiBold.ttf" // Path to the font file in the public directory
+        fontSize={0.7} // Adjusted font size for visibility
+        color="#FFD700" // Gold color for the text
+        anchorX="center" // Horizontal alignment
+        anchorY="middle" // Vertical alignment
+        outlineWidth={0.1} // Reduced outline width for better visibility
+        outlineColor="#000000" // Black outline to contrast with gold
+        material-toneMapped={false} // Prevent color alteration
+      >
+        About Me
+      </Text>
     </RigidBody>
   );
 };
