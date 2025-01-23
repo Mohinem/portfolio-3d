@@ -15,6 +15,9 @@ import ExperienceBuilding from "./ExperienceBuilding";
 import ExperienceMenu from "./ExperienceMenu";
 import ProjectsBuilding from "./ProjectsBuilding";
 import ProjectsMenu from "./ProjectsMenu";
+import AchievementsBuilding from "./AchievementsBuilding";
+import AchievementsMenu from "./AchievementsMenu";
+
 
 
 type ColorfulVillageProps = {
@@ -23,6 +26,7 @@ type ColorfulVillageProps = {
   onOpenEducationMenu: () => void; // Handler prop
   onOpenExperienceMenu: () => void; // Handler prop
   onOpenProjectsMenu: () => void; // Handler prop
+  onOpenAchievementsMenu: () => void; // Handler prop
 };
 
 /**
@@ -584,7 +588,7 @@ function Sun() {
  * 5) The main scene: ColorfulVillage
  * -----------------------------------------
  */
-const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu, onOpenEducationMenu, onOpenExperienceMenu, onOpenProjectsMenu }) => {
+const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu, onOpenEducationMenu, onOpenExperienceMenu, onOpenProjectsMenu, onOpenAchievementsMenu }) => {
   // Load up all “improved” textures
   const grassTex = useImprovedGrassTexture();
   const leavesTex = useImprovedLeavesTexture();
@@ -676,6 +680,15 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
         rotation={[0, Math.PI, 0]} // Rotate position as needed
         onClick={onOpenProjectsMenu} // Pass the handler
         onCollisionWithCar={onOpenProjectsMenu} // Pass the handler for collision
+      />      
+
+        {/* Achievements Building */}
+        <AchievementsBuilding
+        position={[10, 0, -5]} // Specify desired position here
+        scale={[1, 1, 1]} // Adjust scale as needed
+        rotation={[0, Math.PI, 0]} // Rotate position as needed
+        onClick={onOpenAchievementsMenu} // Pass the handler
+        onCollisionWithCar={onOpenAchievementsMenu} // Pass the handler for collision
       />      
 
       {/* Music Player UI
