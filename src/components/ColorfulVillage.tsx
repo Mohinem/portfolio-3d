@@ -13,6 +13,8 @@ import EducationBuilding from "./EducationBuilding";
 import EducationMenu from "./EducationMenu";
 import ExperienceBuilding from "./ExperienceBuilding";
 import ExperienceMenu from "./ExperienceMenu";
+import ProjectsBuilding from "./ProjectsBuilding";
+import ProjectsMenu from "./ProjectsMenu";
 
 
 type ColorfulVillageProps = {
@@ -20,6 +22,7 @@ type ColorfulVillageProps = {
   onOpenAboutMeMenu: () => void; // Handler prop
   onOpenEducationMenu: () => void; // Handler prop
   onOpenExperienceMenu: () => void; // Handler prop
+  onOpenProjectsMenu: () => void; // Handler prop
 };
 
 /**
@@ -581,7 +584,7 @@ function Sun() {
  * 5) The main scene: ColorfulVillage
  * -----------------------------------------
  */
-const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu, onOpenEducationMenu, onOpenExperienceMenu }) => {
+const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu, onOpenEducationMenu, onOpenExperienceMenu, onOpenProjectsMenu }) => {
   // Load up all “improved” textures
   const grassTex = useImprovedGrassTexture();
   const leavesTex = useImprovedLeavesTexture();
@@ -666,6 +669,14 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
         onCollisionWithCar={onOpenExperienceMenu} // Pass the handler for collision
       />      
 
+        {/* Projects Building */}
+        <ProjectsBuilding
+        position={[10, 0, 10]} // Specify desired position here
+        scale={[0.2, 0.4, 0.2]} // Adjust scale as needed
+        rotation={[0, Math.PI, 0]} // Rotate position as needed
+        onClick={onOpenProjectsMenu} // Pass the handler
+        onCollisionWithCar={onOpenProjectsMenu} // Pass the handler for collision
+      />      
 
       {/* Music Player UI
       {isMusicPlayerOpen && (
