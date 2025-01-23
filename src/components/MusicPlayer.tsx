@@ -38,25 +38,32 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ onClose /*, trackUrl */ }) =>
         
         {/* Title Section */}
         <h2 className={styles.funkyTitle}>Music</h2>
-        
-        {/* Description Section */}
-        <p className={styles.funkyDescription}>
-          Music has been my childhood passion. I was more into rap and hip-hop; and consequently more involved with lyrics and rhyming schemes than music production. As I grew older, my taste in music changed, and I lost the passion towards rap. However, I recently rediscovered my passion in EDM. This is one of my sample EDM tracks. Of course, you can find more stuff on my SoundCloud.
-          <br /><br />
-          I'm also open to part-time music production gigs as well. FL Studio is my tool of choice. You are free to contact me for producing EDM tracks.
-        </p>
-        
-        {/* SoundCloud Widget */}
-        <iframe
-          title="SoundCloud Player"
-          width="100%"
-          height="166"
-          scrolling="no"
-          frameBorder="no"
-          allow="autoplay"
-          src={embedUrl}
-          className={styles.soundCloudIframe}
-        ></iframe>
+        <div className={styles.projectsContainer}>
+          <div className={`${styles.projectCard} shadow`}>
+            {/* SoundCloud Widget */}
+            <iframe
+              title="SoundCloud Player"
+              width="100%"
+              height="166"
+              scrolling="no"
+              frameBorder="no"
+              allow="autoplay"
+              src={embedUrl}
+              className={styles.soundCloudIframe}
+            ></iframe>
+            {/* Description Section */}
+            <div className={styles.cardBody}>
+              <p className={styles.cardDescription}>
+                Music has been my childhood passion. I was more into rap and hip-hop; and consequently more involved with lyrics and rhyming schemes than music production. As I grew older, my taste in music changed, and I lost the passion towards rap. However, I recently rediscovered my passion in EDM. This is one of my sample EDM tracks. Of course, you can find more stuff on my SoundCloud.
+                <br /><br />
+                I'm also open to part-time music production gigs as well. FL Studio is my tool of choice. You are free to contact me for producing EDM tracks.
+              </p>
+
+            </div>
+
+
+          </div>
+        </div>
       </div>
     </div>
   );
