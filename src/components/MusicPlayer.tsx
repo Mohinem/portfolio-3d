@@ -28,15 +28,24 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ onClose /*, trackUrl */ }) =>
     <div className={styles.fancyContainer}>
       <div className={styles.playerContainer}>
         {/* Close Button */}
-        <button onClick={onClose} className={styles.closeButton} aria-label="Close Music Player">
+        <button
+          onClick={onClose}
+          className={styles.closeButton}
+          aria-label="Close Music Player"
+        >
           &times;
         </button>
+        
         {/* Title Section */}
-        <h2 className={styles.funkyTitle}>Chill Beats Playlist</h2>
+        <h2 className={styles.funkyTitle}>Music</h2>
+        
         {/* Description Section */}
         <p className={styles.funkyDescription}>
-          Dive into our curated selection of chill beats to relax, study, or unwind after a long day. Enjoy seamless streaming and let the music take you away.
+          Music has been my childhood passion. I was more into rap and hip-hop; and consequently more involved with lyrics and rhyming schemes than music production. As I grew older, my taste in music changed, and I lost the passion towards rap. However, I recently rediscovered my passion in EDM. This is one of my sample EDM tracks. Of course, you can find more stuff on my SoundCloud.
+          <br /><br />
+          I'm also open to part-time music production gigs as well. FL Studio is my tool of choice. You are free to contact me for producing EDM tracks.
         </p>
+        
         {/* SoundCloud Widget */}
         <iframe
           title="SoundCloud Player"
@@ -46,7 +55,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ onClose /*, trackUrl */ }) =>
           frameBorder="no"
           allow="autoplay"
           src={embedUrl}
-          style={{ borderRadius: "10px" }}
+          className={styles.soundCloudIframe}
         ></iframe>
       </div>
     </div>
