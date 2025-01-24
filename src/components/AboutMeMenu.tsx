@@ -29,7 +29,8 @@ const AboutMeMenu: React.FC<AboutMeMenuProps> = ({ onClose /*, trackUrl */ }) =>
             {/* Title Section */}
             <h2 className={styles.funkyTitle}>About Me</h2>
             {/* Description Section */}
-            <p className={styles.funkyDescription}>
+            <div className={styles.EducationContainer}>
+              <p className={styles.funkyDescription}>
               Hi everyone, I am Mohit Kumar Basak.
               <br />
               I've recently graduated from Constructor University, Bremen, with a Masters in Computer Science-Software Engineering, while working as a Research Associate at the same place. I also have a Masters degree from the erstwhile Schaffhausen Institute of Technology (SIT), now called Constructor Institute of Technology, in Switzerland.
@@ -45,8 +46,8 @@ const AboutMeMenu: React.FC<AboutMeMenuProps> = ({ onClose /*, trackUrl */ }) =>
               <br />
               <br />
               With the completion of my course, I'm open to work! I have an equal command over Python and C++ programming languages. I'm decently strong with Java and JavaScript. My Masters' Thesis involved object-oriented programming with the Eiffel programming language. If you have an interesting job opportunity for me, hit me up!
-            
-            </p>
+              </p>
+            </div>
           </div>
           {/* Profile Picture Section */}
           <div className={styles.imageSection}>
