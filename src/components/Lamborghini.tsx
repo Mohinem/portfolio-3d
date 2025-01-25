@@ -15,7 +15,7 @@ interface LamborghiniProps {
   // Define any additional props if necessary
 }
 
-const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((props, ref) => {
+const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((_, ref) => {
   // Load the Lamborghini model
   const gltf = useLoader(
     GLTFLoader,

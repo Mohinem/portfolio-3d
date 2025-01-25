@@ -64,7 +64,7 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
   const baseYPosition = 5; // Example: 0.7 units above the group's origin
 
   // **Animate the text and make it face the camera**
-  useFrame((state, delta) => {
+  useFrame((state, _) => {
     if (textRef.current) {
       // Floating animation with adjusted base y-position
       textRef.current.position.y =
