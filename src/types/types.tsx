@@ -21,3 +21,10 @@ export type Experience = {
   description: string;
   // imageUrl: string;
 };
+
+export type Achievement = {
+  name: string;
+  imageUrl: string;
+  description: string;
+  achievementURL: string;
+};
