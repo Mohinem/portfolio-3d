@@ -684,7 +684,7 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
 
         {/* Achievements Building */}
         <AchievementsBuilding
-        position={[10, 0, -5]} // Specify desired position here
+        position={[1, 0, -5]} // Specify desired position here
         scale={[1, 1, 1]} // Adjust scale as needed
         rotation={[0, Math.PI, 0]} // Rotate position as needed
         onClick={onOpenAchievementsMenu} // Pass the handler
