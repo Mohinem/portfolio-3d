@@ -2,12 +2,43 @@
 
 import React from "react";
 import styles from "../styles/sharedStyles.module.css"; // Import shared styles
+import ExperienceCard from "./ExperienceCard"; // Import the new ExperienceCard component
+import { Experience } from '../types/types';
 
 type ExperienceMenuProps = {
   onClose: () => void;
   // Optionally, you can pass the SoundCloud track or playlist URL as a prop
   // trackUrl?: string;
 };
+
+// Sample list of experiences
+const experiences: Experience[] = [
+  {
+    company: "Constructor University",
+    role: "Research Associate",
+    duration: "2022-2024",
+    description:
+      "Discovered and documented performance improvments on rim storage schemes on Rasdaman array database. Preprocessed and ingested geospatial data. Contributed to advanced time interval functionality to support queries on geo-data. Developed and maintained react landing pages, servers and array datasets.",
+    // imageUrl: ConstructorUniversityImage,
+  },
+  {
+    company: "Wissen Technology",
+    role: "Software Engineer",
+    duration: "2020-2020",
+    description:
+      "Frontend development with Angular JS on internal reporting platforms."
+      // imageUrl: AITImage,
+  },
+  {
+    company: "HSBC",
+    role: "Software Engineer",
+    duration: "2018-2020",
+    description:
+      "Mainframe developer. Performed migration of American credit card systems. Designed plans for future mainframe migration to cloud. Provided support for daily and weekly batch runs.",
+    // imageUrl: ConstructorUniversityImage,
+  },  
+  // Add more experiences as needed
+];
 
 const ExperienceMenu: React.FC<ExperienceMenuProps> = ({ onClose /*, trackUrl */ }) => {
     return (
@@ -19,10 +50,12 @@ const ExperienceMenu: React.FC<ExperienceMenuProps> = ({ onClose /*, trackUrl */
         </button>
         {/* Title Section */}
         <h2 className={styles.funkyTitle}>Experience</h2>
-        {/* Description Section */}
-        <p className={styles.funkyDescription}>
-          Hola ! komo estas ?
-        </p>
+        {/* Experience List */}
+        <div className={styles.ExperienceContainer}>
+          {experiences.map((experience) => (
+            <ExperienceCard experience ={experience} />
+          ))}
+        </div>
       </div>
     </div>
   );

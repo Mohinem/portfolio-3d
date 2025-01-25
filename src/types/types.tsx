@@ -12,3 +12,12 @@ export type Education = {
   description: string;
   // imageUrl: string;
   };
+
+
+export type Experience = {
+  company: string;
+  role: string;
+  duration: string;
+  description: string;
+  // imageUrl: string;
+};
