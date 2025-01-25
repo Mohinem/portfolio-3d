@@ -1,6 +1,6 @@
 // src/components/EducationCard.tsx
 
-import React from 'react';
+// import React from 'react';
 import styles from '../styles/sharedStyles.module.css'; // Import the CSS module
 import { Education } from '../types/types';
 

@@ -1,22 +1,22 @@
 // src/components/ColorfulVillage.tsx
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { RigidBody } from "@react-three/rapier";
 import * as THREE from "three";
 import { Vector3 } from "three";
-import Lamborghini from "./Lamborghini"; // Ensure this path is correct
+// import Lamborghini from "./Lamborghini"; // Ensure this path is correct
 import MusicBuilding from "./MusicBuilding"; // Updated import
-import MusicPlayer from "./MusicPlayer"; // Updated import
+// import MusicPlayer from "./MusicPlayer"; // Updated import
 import AboutMeBuilding from "./AboutMeBuilding";
-import AboutMeMenu from "./AboutMeMenu";
+// import AboutMeMenu from "./AboutMeMenu";
 import EducationBuilding from "./EducationBuilding";
-import EducationMenu from "./EducationMenu";
+// import EducationMenu from "./EducationMenu";
 import ExperienceBuilding from "./ExperienceBuilding";
-import ExperienceMenu from "./ExperienceMenu";
+// import ExperienceMenu from "./ExperienceMenu";
 import ProjectsBuilding from "./ProjectsBuilding";
-import ProjectsMenu from "./ProjectsMenu";
+// import ProjectsMenu from "./ProjectsMenu";
 import AchievementsBuilding from "./AchievementsBuilding";
-import AchievementsMenu from "./AchievementsMenu";
+// import AchievementsMenu from "./AchievementsMenu";
 
 
 
@@ -604,7 +604,7 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
   const mountainGeo = useUltraSmoothMountains(200, 200, 100, 15);
 
   // State to manage music player visibility
-  const [isMusicPlayerOpen, setMusicPlayerOpen] = useState(false);
+  // const [isMusicPlayerOpen, setMusicPlayerOpen] = useState(false);
 
   return (
     <>

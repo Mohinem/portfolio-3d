@@ -1,6 +1,6 @@
 // src/components/Lamborghini.tsx
 
-import React, {
+import {
   useEffect,
   useRef,
   forwardRef,

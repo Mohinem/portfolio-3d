@@ -62,36 +62,36 @@ const ExperienceMenu: React.FC<ExperienceMenuProps> = ({ onClose /*, trackUrl */
 };
 
 // Inline styles for simplicity; consider moving to CSS or a CSS-in-JS library
-const overlayStyle: React.CSSProperties = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100vw",
-  height: "100vh",
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 1000,
-};
+// const overlayStyle: React.CSSProperties = {
+//   position: "fixed",
+//   top: 0,
+//   left: 0,
+//   width: "100vw",
+//   height: "100vh",
+//   backgroundColor: "rgba(0, 0, 0, 0.5)",
+//   display: "flex",
+//   justifyContent: "center",
+//   alignItems: "center",
+//   zIndex: 1000,
+// };
 
-const playerContainerStyle: React.CSSProperties = {
-  position: "relative",
-  width: "90%",
-  maxWidth: "500px",
-  padding: "20px",
-  backgroundColor: "#fff",
-  borderRadius: "10px",
-};
+// const playerContainerStyle: React.CSSProperties = {
+//   position: "relative",
+//   width: "90%",
+//   maxWidth: "500px",
+//   padding: "20px",
+//   backgroundColor: "#fff",
+//   borderRadius: "10px",
+// };
 
-const closeButtonStyle: React.CSSProperties = {
-  position: "absolute",
-  top: "10px",
-  right: "15px",
-  background: "transparent",
-  border: "none",
-  fontSize: "1.5rem",
-  cursor: "pointer",
-};
+// const closeButtonStyle: React.CSSProperties = {
+//   position: "absolute",
+//   top: "10px",
+//   right: "15px",
+//   background: "transparent",
+//   border: "none",
+//   fontSize: "1.5rem",
+//   cursor: "pointer",
+// };
 
 export default ExperienceMenu;

@@ -1,7 +1,7 @@
 // src/components/AchievementCard.tsx
 
-import React from 'react';
-import { Card, Button } from 'react-bootstrap';
+// import React from 'react';
+import { Card } from 'react-bootstrap';
 import { Achievement } from '../types/types'; // Ensure correct import path
 import styles from '../styles/sharedStyles.module.css'; // Import the CSS module
 
