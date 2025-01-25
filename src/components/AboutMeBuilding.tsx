@@ -41,7 +41,7 @@ const AboutMeBuilding: React.FC<AboutMeBuildingProps> = ({
   onCollisionWithCar,
 }) => {
   // Load the GLB model from the assets directory
-  const gltf = useGLTF("../src/assets/buildings/about-me-building.glb") as GLTFResult;
+  const gltf = useGLTF("../buildings/about-me-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
   console.log("AboutMeBuilding loaded:", gltf);
@@ -150,6 +150,6 @@ const AboutMeBuilding: React.FC<AboutMeBuildingProps> = ({
 };
 
 // Preload the GLTF model for performance optimization
-useGLTF.preload("../src/assets/buildings/about-me-building.glb");
+useGLTF.preload("../buildings/about-me-building.glb");
 
 export default AboutMeBuilding;

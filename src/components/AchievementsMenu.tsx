@@ -5,8 +5,8 @@ import styles from "../styles/sharedStyles.module.css"; // Import shared styles
 import AchievementCard from "./AchievementsCard"; // Import the new AchievementCard component
 import { Achievement } from '../types/types';
 
-import starthack from '../assets/Achievements/starthack.jpeg';
-import codeforces from '../assets/Projects/codeforces.png';
+import starthack from '/Achievements/starthack.jpeg';
+import codeforces from '/Projects/codeforces.png';
 
 type AchievementsMenuProps = {
   onClose: () => void;

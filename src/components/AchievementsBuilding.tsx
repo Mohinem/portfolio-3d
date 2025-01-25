@@ -41,7 +41,7 @@ const AchievementsBuilding: React.FC<AchievementsBuildingProps> = ({
   onCollisionWithCar,
 }) => {
   // Load the GLB model from the assets directory
-  const gltf = useGLTF("../src/assets/buildings/achievements-building.glb") as GLTFResult;
+  const gltf = useGLTF("../buildings/achievements-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
   console.log("AchievementsBuilding loaded:", gltf);
@@ -149,6 +149,6 @@ const AchievementsBuilding: React.FC<AchievementsBuildingProps> = ({
 };
 
 // Preload the GLTF model for performance optimization
-useGLTF.preload("../src/assets/buildings/achievements-building.glb");
+useGLTF.preload("../buildings/achievements-building.glb");
 
 export default AchievementsBuilding;

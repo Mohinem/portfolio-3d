@@ -5,11 +5,11 @@ import styles from "../styles/sharedStyles.module.css"; // Import shared styles
 import ProjectCard from "./ProjectCard"; // Import the new ProjectCard component
 import { Project } from '../types/types';
 
-import VoronoiImage from '../assets/Projects/Sample Voronoi Diagram.png';
-import ThreeDPortfolioImage from '../assets/Projects/3d-portfolio-image.png';
-import FootballImage from '../assets/Projects/Sample Football Image.png';
-import EasyPeasyImage from "../assets/Projects/Easy Peasy Diagram.png";
-import GraphImage from "../assets/Projects/Graph Diagram.png";
+import VoronoiImage from '/Projects/Sample Voronoi Diagram.png';
+import ThreeDPortfolioImage from '/Projects/3d-portfolio-image.png';
+import FootballImage from '/Projects/Sample Football Image.png';
+import EasyPeasyImage from "/Projects/Easy Peasy Diagram.png";
+import GraphImage from "/Projects/Graph Diagram.png";
 
 
 type ProjectsMenuProps = {

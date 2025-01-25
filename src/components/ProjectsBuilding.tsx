@@ -41,7 +41,7 @@ const ProjectsBuilding: React.FC<ProjectsBuildingProps> = ({
   onCollisionWithCar,
 }) => {
   // Load the GLB model from the assets directory
-  const gltf = useGLTF("../src/assets/buildings/projects-building.glb") as GLTFResult;
+  const gltf = useGLTF("../buildings/projects-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
   console.log("ProjectsBuilding loaded:", gltf);
@@ -149,6 +149,6 @@ const ProjectsBuilding: React.FC<ProjectsBuildingProps> = ({
 };
 
 // Preload the GLTF model for performance optimization
-useGLTF.preload("../src/assets/buildings/projects-building.glb");
+useGLTF.preload("../buildings/projects-building.glb");
 
 export default ProjectsBuilding;

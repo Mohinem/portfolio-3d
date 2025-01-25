@@ -41,7 +41,7 @@ const ExperienceBuilding: React.FC<ExperienceBuildingProps> = ({
   onCollisionWithCar,
 }) => {
   // Load the GLB model from the assets directory
-  const gltf = useGLTF("../src/assets/buildings/experience-building.glb") as GLTFResult;
+  const gltf = useGLTF("../buildings/experience-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
   console.log("ExperienceBuilding loaded:", gltf);
@@ -149,6 +149,6 @@ const ExperienceBuilding: React.FC<ExperienceBuildingProps> = ({
 };
 
 // Preload the GLTF model for performance optimization
-useGLTF.preload("../src/assets/buildings/experience-building.glb");
+useGLTF.preload("../buildings/experience-building.glb");
 
 export default ExperienceBuilding;

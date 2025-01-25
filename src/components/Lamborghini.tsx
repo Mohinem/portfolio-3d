@@ -19,7 +19,7 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((_, ref) => {
   // Load the Lamborghini model
   const gltf = useLoader(
     GLTFLoader,
-    "../src/assets/lamborghini_urus_car_gltf/scene.gltf"
+    "../lamborghini_urus_car_gltf/scene.gltf"
   ) as any;
 
   const modelRef = useRef<Group>(null);

@@ -41,7 +41,7 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
   onCollisionWithCar,
 }) => {
   // Load the GLB model from the assets directory
-  const gltf = useGLTF("../src/assets/buildings/music-building.glb") as GLTFResult;
+  const gltf = useGLTF("../buildings/music-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
   console.log("MusicBuilding loaded:", gltf);
@@ -151,6 +151,6 @@ const MusicBuilding: React.FC<MusicBuildingProps> = ({
 };
 
 // Preload the GLTF model for performance optimization
-useGLTF.preload("../src/assets/buildings/music-building.glb");
+useGLTF.preload("../buildings/music-building.glb");
 
 export default MusicBuilding;

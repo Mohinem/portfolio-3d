@@ -41,7 +41,7 @@ const EducationBuilding: React.FC<EducationBuildingProps> = ({
   onCollisionWithCar,
 }) => {
   // Load the GLB model from the assets directory
-  const gltf = useGLTF("../src/assets/buildings/education-building.glb") as GLTFResult;
+  const gltf = useGLTF("../buildings/education-building.glb") as GLTFResult;
 
   // Optional: Log to verify model loading
   console.log("EducationBuilding loaded:", gltf);
@@ -149,6 +149,6 @@ const EducationBuilding: React.FC<EducationBuildingProps> = ({
 };
 
 // Preload the GLTF model for performance optimization
-useGLTF.preload("../src/assets/buildings/education-building.glb");
+useGLTF.preload("../buildings/education-building.glb");
 
 export default EducationBuilding;

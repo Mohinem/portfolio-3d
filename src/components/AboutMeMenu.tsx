@@ -2,7 +2,7 @@
 
 import React from "react";
 import styles from "../styles/sharedStyles.module.css"; // Import shared styles
-import profilePicture from "../assets/profile.png"; // Adjust the path as needed
+import profilePicture from "/profile.png"; // Adjust the path as needed
 
 type AboutMeMenuProps = {
   onClose: () => void;
