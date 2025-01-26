@@ -1,11 +1,10 @@
-// src/App.tsx
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { useRef, useState, Suspense } from "react";
 import { Physics, RapierRigidBody } from "@react-three/rapier";
 
-import Lamborghini from './components/Lamborghini';
-import ColorfulVillage from './components/ColorfulVillage';
+import Lamborghini from "./components/Lamborghini";
+import ColorfulVillage from "./components/ColorfulVillage";
 import CameraFollow from "./components/CameraFollow";
 import MusicPlayer from "./components/MusicPlayer";
 import AboutMeMenu from "./components/AboutMeMenu";
@@ -13,27 +12,17 @@ import EducationMenu from "./components/EducationMenu";
 import ExperienceMenu from "./components/ExperienceMenu";
 import ProjectsMenu from "./components/ProjectsMenu";
 import AchievementsMenu from "./components/AchievementsMenu";
-import LoadingScreen from './components/LoadingScreen'; // Import LoadingScreen
+import LoadingScreen from "./components/LoadingScreen";
 
 const App: React.FC = () => {
   const carRef = useRef<RapierRigidBody>(null);
-  
-  // State to manage MusicPlayer visibility
+
+  // State to manage modals/menus
   const [isMusicPlayerOpen, setMusicPlayerOpen] = useState(false);
-
-  // State to manage AboutMeMenu visibility
   const [isAboutMeMenuOpen, setAboutMeMenuOpen] = useState(false);
-
-  // State to manage EducationMenu visibility
   const [isEducationMenuOpen, setEducationMenuOpen] = useState(false);
-
-  // State to manage ExperienceMenu visibility
   const [isExperienceMenuOpen, setExperienceMenuOpen] = useState(false);
-
-  // State to manage ProjectsMenu visibility
   const [isProjectsMenuOpen, setProjectsMenuOpen] = useState(false);
-
-  // State to manage AchievementsMenu visibility
   const [isAchievementsMenuOpen, setAchievementsMenuOpen] = useState(false);
 
   return (
@@ -45,20 +34,11 @@ const App: React.FC = () => {
       >
         <Suspense fallback={<LoadingScreen />}>
           <Physics gravity={[0, -9.81, 0]}>
-            {/* Lamborghini car */}
+            {/* Car */}
             <Lamborghini ref={carRef} />
 
-            {/* Sky setup (commented out)
-            <Sky
-              distance={100}
-              sunPosition={[0, 1, 0]}
-              inclination={0}
-              azimuth={0.25}
-              turbidity={10}
-              rayleigh={0.9}
-              mieCoefficient={0.005}
-              mieDirectionalG={0.8}
-            /> */}
+            {/* Optional sky or environment can go here */}
+            {/* <Sky ... /> */}
 
             {/* Orbit controls */}
             <OrbitControls
@@ -92,42 +72,43 @@ const App: React.FC = () => {
               onOpenAchievementsMenu={() => setAchievementsMenuOpen(true)}
             />
 
+            {/* Camera follows the car */}
             <CameraFollow target={carRef} offset={[0, 5, 10]} />
           </Physics>
         </Suspense>
       </Canvas>
 
-      {/* Music Player UI - Rendered Outside Canvas */}
+      {/* Music Player UI */}
       {isMusicPlayerOpen && (
         <MusicPlayer onClose={() => setMusicPlayerOpen(false)} />
       )}
 
-      {/* About Me Menu UI - Rendered Outside Canvas */}
+      {/* About Me Menu UI */}
       {isAboutMeMenuOpen && (
         <AboutMeMenu onClose={() => setAboutMeMenuOpen(false)} />
       )}
 
-      {/* Education Menu UI - Rendered Outside Canvas */}
+      {/* Education Menu UI */}
       {isEducationMenuOpen && (
         <EducationMenu onClose={() => setEducationMenuOpen(false)} />
       )}
 
-      {/* Experience Menu UI - Rendered Outside Canvas */}
+      {/* Experience Menu UI */}
       {isExperienceMenuOpen && (
         <ExperienceMenu onClose={() => setExperienceMenuOpen(false)} />
       )}
 
-      {/* Projects Menu UI - Rendered Outside Canvas */}
+      {/* Projects Menu UI */}
       {isProjectsMenuOpen && (
         <ProjectsMenu onClose={() => setProjectsMenuOpen(false)} />
       )}
 
-      {/* Achievements Menu UI - Rendered Outside Canvas */}
+      {/* Achievements Menu UI */}
       {isAchievementsMenuOpen && (
         <AchievementsMenu onClose={() => setAchievementsMenuOpen(false)} />
-      )}      
+      )}
     </>
   );
-}
+};
 
 export default App;

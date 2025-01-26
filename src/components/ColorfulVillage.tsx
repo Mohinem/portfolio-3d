@@ -1,24 +1,13 @@
-// src/components/ColorfulVillage.tsx
-
 import React, { useMemo } from "react";
 import { RigidBody } from "@react-three/rapier";
 import * as THREE from "three";
 import { Vector3 } from "three";
-// import Lamborghini from "./Lamborghini"; // Ensure this path is correct
-import MusicBuilding from "./MusicBuilding"; // Updated import
-// import MusicPlayer from "./MusicPlayer"; // Updated import
+import MusicBuilding from "./MusicBuilding";
 import AboutMeBuilding from "./AboutMeBuilding";
-// import AboutMeMenu from "./AboutMeMenu";
 import EducationBuilding from "./EducationBuilding";
-// import EducationMenu from "./EducationMenu";
 import ExperienceBuilding from "./ExperienceBuilding";
-// import ExperienceMenu from "./ExperienceMenu";
 import ProjectsBuilding from "./ProjectsBuilding";
-// import ProjectsMenu from "./ProjectsMenu";
 import AchievementsBuilding from "./AchievementsBuilding";
-// import AchievementsMenu from "./AchievementsMenu";
-
-
 
 type ColorfulVillageProps = {
   onOpenMusicPlayer: () => void; // Handler prop
@@ -51,26 +40,28 @@ function createCanvasTexture(
 }
 
 /**
- * -----------------------------------------
- * 1) "10000x" IMPROVED PROCEDURAL TEXTURES
- * -----------------------------------------
+ * ------------------------------------------------
+ * 1) "10000x" FASTER PROCEDURAL TEXTURES (REDUCED)
+ * ------------------------------------------------
  */
 
-/** Rich, layered grass texture (high-quality) */
+/** Rich, layered grass texture but with drastically smaller size/loops */
 function useImprovedGrassTexture() {
   return React.useMemo(() => {
+    // Reduced from 2048 -> 64, drastically fewer speckles
     return createCanvasTexture(
-      2048, // bigger for higher resolution
+      64,
       (ctx, size) => {
-        // 1) Base gradient: darker at top, lighter at bottom
+        // 1) Base gradient
         const grad = ctx.createLinearGradient(0, 0, 0, size);
         grad.addColorStop(0, "#2e7d32"); // top: dark green
         grad.addColorStop(1, "#66bb6a"); // bottom: lighter
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // 2) Add random speckles (like noise)
-        for (let i = 0; i < size * 1200; i++) {
+        // 2) Add random speckles
+        // Reduced from size * 1200 => size * 3
+        for (let i = 0; i < size * 3; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
           const hue = 100 + Math.random() * 20;
@@ -79,7 +70,7 @@ function useImprovedGrassTexture() {
           ctx.fillRect(x, y, 1, 1);
         }
 
-        // 3) Subtle radial shading for depth
+        // 3) Subtle radial shading
         ctx.save();
         ctx.globalAlpha = 0.2;
         const radialGrad = ctx.createRadialGradient(
@@ -96,7 +87,7 @@ function useImprovedGrassTexture() {
         ctx.fillRect(0, 0, size, size);
         ctx.restore();
 
-        // 4) Horizontal streaks for texture
+        // 4) Horizontal streaks (low overhead, keep them)
         ctx.globalAlpha = 0.15;
         ctx.strokeStyle = "rgba(0, 60, 0, 0.3)";
         ctx.lineWidth = 2;
@@ -114,21 +105,22 @@ function useImprovedGrassTexture() {
   }, []);
 }
 
-/** Enhanced leaves texture (for pine-like cones or broad leaves) */
+/** Leaves texture (much smaller/faster) */
 function useImprovedLeavesTexture() {
   return React.useMemo(() => {
+    // Reduced from 1024 -> 64
     return createCanvasTexture(
-      1024,
+      64,
       (ctx, size) => {
-        // Gentle vertical gradient
         const grad = ctx.createLinearGradient(0, 0, 0, size);
         grad.addColorStop(0, "#1e7f39");
         grad.addColorStop(1, "#4caf50");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // Add specks for realism
-        for (let i = 0; i < size * 160; i++) {
+        // Add specks
+        // Reduced from size * 160 => size * 2
+        for (let i = 0; i < size * 2; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
           ctx.fillStyle = `rgba(0,0,0,${Math.random() * 0.25})`;
@@ -143,19 +135,21 @@ function useImprovedLeavesTexture() {
   }, []);
 }
 
-/** Enhanced bark texture (vertical ridges, color variations) */
+/** Bark texture (vertical ridges, color variations), smaller loops */
 function useImprovedBarkTexture() {
   return React.useMemo(() => {
-    return createCanvasTexture(1024, (ctx, size) => {
+    // Reduced from 1024 -> 64
+    return createCanvasTexture(64, (ctx, size) => {
       // Base fill: mid-brown
       ctx.fillStyle = "#8d6e63";
       ctx.fillRect(0, 0, size, size);
 
-      // Vertical ridges with random wiggle for texture
+      // Vertical ridges
+      // Reduced from i=0..100 => i=0..3
       ctx.strokeStyle = "#5d4037";
       ctx.lineWidth = 3;
-      for (let i = 0; i < 100; i++) {
-        let x = (i * size) / 100 + Math.random() * 5;
+      for (let i = 0; i < 3; i++) {
+        let x = (i * size) / 3 + Math.random() * 5;
         ctx.beginPath();
         ctx.moveTo(x, 0);
         for (let y = 0; y < size; y += 15) {
@@ -165,8 +159,9 @@ function useImprovedBarkTexture() {
         ctx.stroke();
       }
 
-      // Dark spots (knots) for added detail
-      for (let i = 0; i < 600; i++) {
+      // Dark spots (knots)
+      // Reduced from 600 => 20
+      for (let i = 0; i < 20; i++) {
         const x = Math.random() * size;
         const y = Math.random() * size;
         ctx.fillStyle = "rgba(60,40,30,0.5)";
@@ -178,25 +173,25 @@ function useImprovedBarkTexture() {
   }, []);
 }
 
-/** Enhanced water texture: multi-layer waves & foam. */
+/** Water texture: drastically smaller canvas & fewer loops */
 function useImprovedWaterTexture() {
   return React.useMemo(() => {
+    // Reduced from 2048 -> 64
     return createCanvasTexture(
-      2048,
+      64,
       (ctx, size) => {
-        // Base gradient: deeper at top, lighter at bottom
         const grad = ctx.createLinearGradient(0, 0, 0, size);
-        grad.addColorStop(0, "#1565c0"); // Deeper water
-        grad.addColorStop(1, "#4fc3f7"); // Lighter water
+        grad.addColorStop(0, "#1565c0"); // Deeper
+        grad.addColorStop(1, "#4fc3f7"); // Lighter
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // Wavy lines to simulate water movement
+        // Wavy lines: reduced from 160 => 5
         ctx.strokeStyle = "rgba(255,255,255,0.4)";
         ctx.lineWidth = 2;
-        for (let i = 0; i < 160; i++) {
+        for (let i = 0; i < 5; i++) {
           let x = 0;
-          const y = (i * size) / 160 + Math.random() * 15;
+          const y = (i * size) / 5 + Math.random() * 2;
           ctx.beginPath();
           ctx.moveTo(x, y);
           while (x < size) {
@@ -207,8 +202,8 @@ function useImprovedWaterTexture() {
           ctx.stroke();
         }
 
-        // Foam patches for realism
-        for (let i = 0; i < 160; i++) {
+        // Foam patches: reduced from 160 => 5
+        for (let i = 0; i < 5; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
           ctx.fillStyle = `rgba(255,255,255,${0.2 + Math.random() * 0.2})`;
@@ -223,24 +218,25 @@ function useImprovedWaterTexture() {
   }, []);
 }
 
-/** Enhanced animal fur/skin texture */
+/** Animal fur/skin: smaller size & loops */
 function useImprovedAnimalTexture() {
   return React.useMemo(() => {
+    // Reduced from 1024 -> 64
     return createCanvasTexture(
-      1024,
+      64,
       (ctx, size) => {
-        // Base color range
+        // Base color
         ctx.fillStyle = `hsl(${Math.random() * 60}, 50%, 75%)`;
         ctx.fillRect(0, 0, size, size);
 
-        // Stripes/spots combo
         ctx.globalAlpha = 0.6;
         ctx.strokeStyle = "#000";
         ctx.fillStyle = "#000";
         ctx.lineWidth = 3;
 
-        // Random stripes for pattern
-        for (let y = 0; y < size; y += 20) {
+        // Random stripes: originally spaced by 20 row, keep minimal overhead
+        // We'll keep them but the smaller canvas means fewer lines anyway
+        for (let y = 0; y < size; y += 32) {
           ctx.beginPath();
           ctx.moveTo(0, y + Math.random() * 5);
           let x = 0;
@@ -252,8 +248,8 @@ function useImprovedAnimalTexture() {
           ctx.stroke();
         }
 
-        // Random spots for additional detail
-        for (let i = 0; i < 1200; i++) {
+        // Random spots: reduced from 1200 => 20
+        for (let i = 0; i < 20; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
           ctx.beginPath();
@@ -268,21 +264,22 @@ function useImprovedAnimalTexture() {
   }, []);
 }
 
-/** Mountain rock texture WITH SNOW at the top */
+/** Mountain rock with snow on top: smaller & fewer loops */
 function useImprovedMountainTexture() {
   return React.useMemo(() => {
+    // Reduced from 2048 -> 64
     return createCanvasTexture(
-      2048,
+      64,
       (ctx, size) => {
-        // Gradient from white (snow) to gray (rocky)
+        // Gradient from white to gray
         const grad = ctx.createLinearGradient(0, 0, 0, size);
-        grad.addColorStop(0, "#ffffff"); // Top: snowy
-        grad.addColorStop(1, "#8d8d8d"); // Bottom: rocky
+        grad.addColorStop(0, "#ffffff");
+        grad.addColorStop(1, "#8d8d8d");
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, size, size);
 
-        // Add noise for texture
-        for (let i = 0; i < size * 2500; i++) {
+        // Noise: reduced from size*2500 => size*3
+        for (let i = 0; i < size * 3; i++) {
           const x = Math.random() * size;
           const y = Math.random() * size;
           const val = Math.random() * 200;
@@ -290,11 +287,11 @@ function useImprovedMountainTexture() {
           ctx.fillRect(x, y, 1, 1);
         }
 
-        // Random cracks to simulate rocky surfaces
+        // Random cracks: reduced from 200 => 3
         ctx.strokeStyle = "rgba(0,0,0,0.1)";
-        for (let i = 0; i < 200; i++) {
+        for (let i = 0; i < 3; i++) {
           let x = 0;
-          const y = (i * size) / 200;
+          const y = (i * size) / 3;
           ctx.beginPath();
           ctx.moveTo(x, y);
           while (x < size) {
@@ -312,19 +309,15 @@ function useImprovedMountainTexture() {
 }
 
 /**
- * -----------------------------------------
+ * ------------------------------------------------
  * 2) SUPER-SMOOTH TERRAIN (GROUND + MOUNTAINS)
- * -----------------------------------------
- */
-
-/**
- * Ultra-smooth ground terrain
+ * ------------------------------------------------
  */
 function useUltraSmoothTerrain(
   width = 100,
   height = 100,
   segments = 100, // more segments => smoother
-  amplitude = 0.0 // slightly more variation
+  amplitude = 0.0
 ) {
   return React.useMemo(() => {
     const geometry = new THREE.PlaneGeometry(width, height, segments, segments);
@@ -335,7 +328,7 @@ function useUltraSmoothTerrain(
 
     for (let i = 0; i < posAttr.count; i++) {
       vertex.fromBufferAttribute(posAttr, i);
-      // mild random offset to create gentle rolling
+      // mild random offset
       vertex.y += (Math.random() - 0.5) * amplitude;
       posAttr.setXYZ(i, vertex.x, vertex.y, vertex.z);
     }
@@ -345,14 +338,11 @@ function useUltraSmoothTerrain(
   }, [width, height, segments, amplitude]);
 }
 
-/**
- * Fewer mountains but good texture, plus random shape
- */
 function useUltraSmoothMountains(
   width = 200,
   height = 200,
   segments = 100,
-  amplitude = 15 // enough for nice ridges
+  amplitude = 15
 ) {
   return React.useMemo(() => {
     const geometry = new THREE.PlaneGeometry(width, height, segments, segments);
@@ -361,14 +351,12 @@ function useUltraSmoothMountains(
     const posAttr = geometry.attributes.position;
     const vertex = new Vector3();
 
-    // We'll push up vertices more at the edges, to form a ring of mountains
+    // We'll push up vertices more at the edges, forming a ring of mountains
     for (let i = 0; i < posAttr.count; i++) {
       vertex.fromBufferAttribute(posAttr, i);
       const dist = Math.sqrt(vertex.x * vertex.x + vertex.z * vertex.z);
       const maxDist = Math.max(width, height) * 0.5;
-      const factor = dist / maxDist; // 0 at center, ~1 at edges
-
-      // random mountainous offset
+      const factor = dist / maxDist; // 0 center, ~1 edges
       vertex.y = factor * factor * (Math.random() * amplitude);
       posAttr.setXYZ(i, vertex.x, vertex.y, vertex.z);
     }
@@ -379,9 +367,9 @@ function useUltraSmoothMountains(
 }
 
 /**
- * -----------------------------------------
- * 3) Adding Clouds in the sky
- * -----------------------------------------
+ * ------------------------------------------------
+ * 3) Clouds
+ * ------------------------------------------------
  */
 function Clouds({ count = 10 }: { count?: number }) {
   const clouds = useMemo(() => {
@@ -405,7 +393,7 @@ function Clouds({ count = 10 }: { count?: number }) {
             <sphereGeometry args={[1, 16, 16]} />
             <meshStandardMaterial color="#ffffff" transparent opacity={0.9} />
           </mesh>
-          {/* Additional small lumps for variety */}
+          {/* Additional lumps */}
           <mesh
             scale={[c.scale * 0.7, c.scale * 0.7, c.scale * 0.7]}
             position={[1, 1, 0]}
@@ -427,11 +415,10 @@ function Clouds({ count = 10 }: { count?: number }) {
 }
 
 /**
- * -----------------------------------------
- * 4) Other Components (WaterPlane, RandomAnimals, SmoothTrees, Mountains, Sun)
- * -----------------------------------------
+ * ------------------------------------------------
+ * 4) WaterPlane, Animals, Trees, Mountains, Sun
+ * ------------------------------------------------
  */
-
 function WaterPlane({ waterTex }: { waterTex: THREE.CanvasTexture }) {
   return (
     <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.5, 0]} receiveShadow>
@@ -533,7 +520,7 @@ function SmoothTrees({
               />
             </mesh>
           </RigidBody>
-          {/* Foliage (cone) */}
+          {/* Foliage */}
           <RigidBody type="fixed">
             <mesh castShadow position={[0, t.trunkH + t.foliageH / 2, 0]}>
               <coneGeometry args={[1.8, t.foliageH, 8]} />
@@ -571,7 +558,6 @@ function Mountains({
 }
 
 function Sun() {
-  // A bright directional light from above
   return (
     <directionalLight
       intensity={2}
@@ -584,12 +570,19 @@ function Sun() {
 }
 
 /**
- * -----------------------------------------
- * 5) The main scene: ColorfulVillage
- * -----------------------------------------
+ * ------------------------------------------------
+ * 5) Main scene: ColorfulVillage
+ * ------------------------------------------------
  */
-const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, onOpenAboutMeMenu, onOpenEducationMenu, onOpenExperienceMenu, onOpenProjectsMenu, onOpenAchievementsMenu }) => {
-  // Load up all “improved” textures
+const ColorfulVillage: React.FC<ColorfulVillageProps> = ({
+  onOpenMusicPlayer,
+  onOpenAboutMeMenu,
+  onOpenEducationMenu,
+  onOpenExperienceMenu,
+  onOpenProjectsMenu,
+  onOpenAchievementsMenu,
+}) => {
+  // Load up the improved (but smaller) textures
   const grassTex = useImprovedGrassTexture();
   const leavesTex = useImprovedLeavesTexture();
   const barkTex = useImprovedBarkTexture();
@@ -597,24 +590,21 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
   const animalTex = useImprovedAnimalTexture();
   const mountainTex = useImprovedMountainTexture();
 
-  // Ultra-smooth ground geometry
+  // Ground geometry
   const groundGeo = useUltraSmoothTerrain(100, 100, 100, 0.0);
 
-  // Fewer mountains geometry (with snow at top)
+  // Mountains geometry
   const mountainGeo = useUltraSmoothMountains(200, 200, 100, 15);
-
-  // State to manage music player visibility
-  // const [isMusicPlayerOpen, setMusicPlayerOpen] = useState(false);
 
   return (
     <>
-      {/* Lighting and Environmental Elements */}
+      {/* Lighting & environment */}
       <Sun />
       <ambientLight intensity={0.3} />
       <Clouds count={5} />
       <Mountains mountainGeo={mountainGeo} mountainTex={mountainTex} />
 
-      {/* Ground Plane */}
+      {/* Ground */}
       <RigidBody type="fixed" colliders="trimesh">
         <mesh geometry={groundGeo} receiveShadow castShadow>
           <meshStandardMaterial
@@ -625,7 +615,7 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
         </mesh>
       </RigidBody>
 
-      {/* Water Body */}
+      {/* Water */}
       <WaterPlane waterTex={waterTex} />
 
       {/* Trees */}
@@ -634,67 +624,59 @@ const ColorfulVillage: React.FC<ColorfulVillageProps> = ({ onOpenMusicPlayer, on
       {/* Animals */}
       <RandomAnimals count={6} animalTex={animalTex} />
 
-      {/* The Car (Lamborghini) */}
-      {/* <Lamborghini /> */}
-
       {/* Music Building */}
       <MusicBuilding
-        position={[8, 0, 2]} // Specify desired position here
-        scale={[6, 6, 6]} // Adjust scale as needed
-        rotation={[0, Math.PI / 2, 0]} // Rotate position as needed
-        onClick={onOpenMusicPlayer} // Pass the handler
-        onCollisionWithCar={onOpenMusicPlayer} // Pass the handler for collision
+        position={[8, 0, 2]}
+        scale={[6, 6, 6]}
+        rotation={[0, Math.PI / 2, 0]}
+        onClick={onOpenMusicPlayer}
+        onCollisionWithCar={onOpenMusicPlayer}
       />
 
       {/* About Me Building */}
       <AboutMeBuilding
-        position={[0, 0, 10]} // Specify desired position here
-        scale={[0.005, 0.005, 0.005]} // Adjust scale as needed
-        rotation={[0, Math.PI, 0]} // Rotate position as needed
-        onClick={onOpenAboutMeMenu} // Pass the handler
-        onCollisionWithCar={onOpenAboutMeMenu} // Pass the handler for collision
+        position={[0, 0, 10]}
+        scale={[0.005, 0.005, 0.005]}
+        rotation={[0, Math.PI, 0]}
+        onClick={onOpenAboutMeMenu}
+        onCollisionWithCar={onOpenAboutMeMenu}
       />
 
-        {/* Education Building */}
+      {/* Education Building */}
       <EducationBuilding
-        position={[-3, 0, 8]} // Specify desired position here
-        scale={[0.1, 0.5, 0.1]} // Adjust scale as needed
-        rotation={[0, Math.PI, 0]} // Rotate position as needed
-        onClick={onOpenEducationMenu} // Pass the handler
-        onCollisionWithCar={onOpenEducationMenu} // Pass the handler for collision
+        position={[-3, 0, 8]}
+        scale={[0.1, 0.5, 0.1]}
+        rotation={[0, Math.PI, 0]}
+        onClick={onOpenEducationMenu}
+        onCollisionWithCar={onOpenEducationMenu}
       />
 
-        {/* Experience Building */}
-        <ExperienceBuilding
-        position={[-6, 0, 1.8]} // Specify desired position here
-        scale={[0.00095, 0.00095, 0.00095]} // Adjust scale as needed
-        rotation={[0, Math.PI, 0]} // Rotate position as needed
-        onClick={onOpenExperienceMenu} // Pass the handler
-        onCollisionWithCar={onOpenExperienceMenu} // Pass the handler for collision
-      />      
+      {/* Experience Building */}
+      <ExperienceBuilding
+        position={[-6, 0, 1.8]}
+        scale={[0.00095, 0.00095, 0.00095]}
+        rotation={[0, Math.PI, 0]}
+        onClick={onOpenExperienceMenu}
+        onCollisionWithCar={onOpenExperienceMenu}
+      />
 
-        {/* Projects Building */}
-        <ProjectsBuilding
-        position={[10, 0, 10]} // Specify desired position here
-        scale={[0.2, 0.4, 0.2]} // Adjust scale as needed
-        rotation={[0, Math.PI, 0]} // Rotate position as needed
-        onClick={onOpenProjectsMenu} // Pass the handler
-        onCollisionWithCar={onOpenProjectsMenu} // Pass the handler for collision
-      />      
+      {/* Projects Building */}
+      <ProjectsBuilding
+        position={[10, 0, 10]}
+        scale={[0.2, 0.4, 0.2]}
+        rotation={[0, Math.PI, 0]}
+        onClick={onOpenProjectsMenu}
+        onCollisionWithCar={onOpenProjectsMenu}
+      />
 
-        {/* Achievements Building */}
-        <AchievementsBuilding
-        position={[1, 0, -5]} // Specify desired position here
-        scale={[1, 1, 1]} // Adjust scale as needed
-        rotation={[0, Math.PI, 0]} // Rotate position as needed
-        onClick={onOpenAchievementsMenu} // Pass the handler
-        onCollisionWithCar={onOpenAchievementsMenu} // Pass the handler for collision
-      />      
-
-      {/* Music Player UI
-      {isMusicPlayerOpen && (
-        <MusicPlayer onClose={() => setMusicPlayerOpen(false)} />
-      )} */}
+      {/* Achievements Building */}
+      <AchievementsBuilding
+        position={[1, 0, -5]}
+        scale={[1, 1, 1]}
+        rotation={[0, Math.PI, 0]}
+        onClick={onOpenAchievementsMenu}
+        onCollisionWithCar={onOpenAchievementsMenu}
+      />
     </>
   );
 };
