@@ -1,6 +1,7 @@
+// src/App.tsx
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { useRef, useState, Suspense } from "react";
+import { useRef, useState, Suspense, useEffect } from "react";
 import { Physics, RapierRigidBody } from "@react-three/rapier";
 
 import Lamborghini from "./components/Lamborghini";
@@ -14,10 +15,62 @@ import ProjectsMenu from "./components/ProjectsMenu";
 import AchievementsMenu from "./components/AchievementsMenu";
 import LoadingScreen from "./components/LoadingScreen";
 
+// 1) Hook to load Montserrat SemiBold from /fonts
+function useFont() {
+  useEffect(() => {
+    const font = new FontFace(
+      "MontserratSemiBold",
+      'url("/fonts/Montserrat-SemiBold.ttf")'
+    );
+    font.load().then((loadedFace) => {
+      document.fonts.add(loadedFace);
+    });
+  }, []);
+}
+
+// 2) HUD with improved visibility
+function HUD() {
+  useFont();
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: "10px",
+        right: "10px",
+        color: "yellow",
+        fontFamily: "MontserratSemiBold, sans-serif",
+        textAlign: "right",
+        width: "300px",
+        fontSize: "16px", // Bigger text
+        userSelect: "none",
+        pointerEvents: "none", // so it doesn't block clicks
+        zIndex: 9999,
+
+        // Highly visible background
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
+        padding: "15px",
+        borderRadius: "8px",
+        boxShadow: "0 0 15px rgba(0, 0, 0, 0.6)",
+      }}
+    >
+      Use <strong>W, A, S, D</strong> or arrow keys to move the car.
+      <br />
+      Press <strong>R</strong> to reset the car.
+      <br />
+      <br />
+      To know more about me, click on the named buildings
+      <br />
+      or collide the car with them.
+    </div>
+  );
+}
+
+// 3) Main App
 const App: React.FC = () => {
   const carRef = useRef<RapierRigidBody>(null);
 
-  // State to manage modals/menus
+  // Menus/Modals
   const [isMusicPlayerOpen, setMusicPlayerOpen] = useState(false);
   const [isAboutMeMenuOpen, setAboutMeMenuOpen] = useState(false);
   const [isEducationMenuOpen, setEducationMenuOpen] = useState(false);
@@ -37,7 +90,7 @@ const App: React.FC = () => {
             {/* Car */}
             <Lamborghini ref={carRef} />
 
-            {/* Optional sky or environment can go here */}
+            {/* Optional environment */}
             {/* <Sky ... /> */}
 
             {/* Orbit controls */}
@@ -48,7 +101,7 @@ const App: React.FC = () => {
               enableZoom={true}
             />
 
-            {/* Directional light */}
+            {/* Main light */}
             <directionalLight
               position={[10, 10, 5]}
               intensity={1}
@@ -62,7 +115,7 @@ const App: React.FC = () => {
               shadow-camera-bottom={-10}
             />
 
-            {/* Main Scene */}
+            {/* Scene with buildings */}
             <ColorfulVillage
               onOpenMusicPlayer={() => setMusicPlayerOpen(true)}
               onOpenAboutMeMenu={() => setAboutMeMenuOpen(true)}
@@ -78,32 +131,25 @@ const App: React.FC = () => {
         </Suspense>
       </Canvas>
 
-      {/* Music Player UI */}
+      {/* HUD always on top */}
+      <HUD />
+
+      {/* Modals / Menus */}
       {isMusicPlayerOpen && (
         <MusicPlayer onClose={() => setMusicPlayerOpen(false)} />
       )}
-
-      {/* About Me Menu UI */}
       {isAboutMeMenuOpen && (
         <AboutMeMenu onClose={() => setAboutMeMenuOpen(false)} />
       )}
-
-      {/* Education Menu UI */}
       {isEducationMenuOpen && (
         <EducationMenu onClose={() => setEducationMenuOpen(false)} />
       )}
-
-      {/* Experience Menu UI */}
       {isExperienceMenuOpen && (
         <ExperienceMenu onClose={() => setExperienceMenuOpen(false)} />
       )}
-
-      {/* Projects Menu UI */}
       {isProjectsMenuOpen && (
         <ProjectsMenu onClose={() => setProjectsMenuOpen(false)} />
       )}
-
-      {/* Achievements Menu UI */}
       {isAchievementsMenuOpen && (
         <AchievementsMenu onClose={() => setAchievementsMenuOpen(false)} />
       )}
