@@ -6,10 +6,10 @@ import {
   forwardRef,
   MutableRefObject
 } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { AudioListener, PositionalAudio, Group, Vector3, Quaternion } from "three";
 import { RigidBody, RapierRigidBody } from "@react-three/rapier";
-import { Group, Vector3, Quaternion } from "three";
 
 interface LamborghiniProps {
   // Any additional props if necessary
@@ -24,6 +24,9 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((_, ref) => {
 
   const modelRef = useRef<Group>(null);
   const rigidBodyLocalRef = useRef<RapierRigidBody>(null);
+  const oscillatorRef = useRef<OscillatorNode | null>(null);
+
+  const { camera } = useThree();
 
   // Assign the local ref to the forwarded ref
   useEffect(() => {
@@ -43,6 +46,29 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((_, ref) => {
       rigidBodyLocalRef.current.userData = "car";
     }
   }, []);
+
+  // Initialize generated engine sound and attach it to the car model
+  useEffect(() => {
+    if (modelRef.current) {
+      let listener = camera.getObjectByProperty("type", "AudioListener") as AudioListener;
+      if (!listener) {
+        listener = new AudioListener();
+        camera.add(listener);
+      }
+      const engineAudio = new PositionalAudio(listener);
+      const oscillator = listener.context.createOscillator();
+      oscillator.type = 'sine'; // Using a sine wave for smoother, high-quality sound
+      oscillator.frequency.value = 60; // Set idle frequency to 60 Hz (more audible)
+      oscillator.start();
+      oscillatorRef.current = oscillator;
+      engineAudio.setNodeSource(oscillator);
+      engineAudio.setLoop(true);
+      engineAudio.setRefDistance(20);
+      engineAudio.setVolume(0.15); // Slightly noticeable but not very loud
+      engineAudio.play();
+      modelRef.current.add(engineAudio);
+    }
+  }, [modelRef, camera]);
 
   // Track pressed keys
   const keysPressed = useRef<{ [key: string]: boolean }>({});
@@ -94,7 +120,7 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((_, ref) => {
     // Forward vector in local -Z
     const forwardVector = new Vector3(0, 0, -1).applyQuaternion(orientation);
 
-    // Forward/back
+    // Forward/back movement
     if (keysPressed.current["KeyW"] || keysPressed.current["ArrowUp"]) {
       body.applyImpulse(
         {
@@ -116,12 +142,25 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((_, ref) => {
       );
     }
 
-    // Left/right turn
+    // Left/right turning
     if (keysPressed.current["KeyA"] || keysPressed.current["ArrowLeft"]) {
       body.applyTorqueImpulse({ x: 0, y: torqueMagnitude, z: 0 }, true);
     }
     if (keysPressed.current["KeyD"] || keysPressed.current["ArrowRight"]) {
       body.applyTorqueImpulse({ x: 0, y: -torqueMagnitude, z: 0 }, true);
+    }
+
+    // Update engine sound frequency for realistic sound mechanics
+    if (oscillatorRef.current) {
+      let targetFreq = 60; // idle frequency
+      if (keysPressed.current["KeyW"] || keysPressed.current["ArrowUp"]) {
+        targetFreq = 120; // accelerating: increase frequency
+      } else if (keysPressed.current["KeyS"] || keysPressed.current["ArrowDown"]) {
+        targetFreq = 50; // reversing/braking: lower frequency
+      }
+      const currentFreq = oscillatorRef.current.frequency.value;
+      const lerpFactor = 0.1;
+      oscillatorRef.current.frequency.value = currentFreq + (targetFreq - currentFreq) * lerpFactor;
     }
   });
 
@@ -135,7 +174,7 @@ const Lamborghini = forwardRef<RapierRigidBody, LamborghiniProps>((_, ref) => {
   return (
     <RigidBody
       ref={rigidBodyLocalRef}
-      mass={15000}      
+      mass={15000}
       position={[0, 1, 0]}
       colliders="hull"
       restitution={0.5}
