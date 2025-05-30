@@ -29,9 +29,7 @@ function useFont() {
 }
 
 // 2) HUD with conditional content for mobile vs desktop
-interface HUDProps {
-  isMobile: boolean;
-}
+interface HUDProps { isMobile: boolean; }
 function HUD({ isMobile }: HUDProps) {
   useFont();
 
@@ -39,19 +37,19 @@ function HUD({ isMobile }: HUDProps) {
     <div
       style={{
         position: "absolute",
-        top: "10px",
-        right: "10px",
+        top: 10,
+        right: 10,
         color: "yellow",
         fontFamily: "MontserratSemiBold, sans-serif",
         textAlign: "right",
-        width: "300px",
-        fontSize: "16px",
+        width: 300,
+        fontSize: 16,
         userSelect: "none",
         pointerEvents: "none",
-        backgroundColor: "rgba(0, 0, 0, 0.7)",
-        padding: "15px",
-        borderRadius: "8px",
-        boxShadow: "0 0 15px rgba(0, 0, 0, 0.6)",
+        backgroundColor: "rgba(0,0,0,0.7)",
+        padding: 15,
+        borderRadius: 8,
+        boxShadow: "0 0 15px rgba(0,0,0,0.6)",
       }}
     >
       {isMobile ? (
@@ -105,7 +103,11 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Canvas style={{ width: "100vw", height: "100vh" }} shadows camera={{ position: [0, 5, 10], fov: 60 }}>
+      <Canvas
+        style={{ width: "100vw", height: "100vh" }}
+        shadows
+        camera={{ position: [0, 5, 10], fov: 60 }}
+      >
         <Suspense fallback={<LoadingScreen />}>
           <Physics gravity={[0, -9.81, 0]}>
             {/* Car */}
@@ -116,7 +118,7 @@ const App: React.FC = () => {
               minPolarAngle={Math.PI / 3.3}
               maxPolarAngle={Math.PI / 3}
               enablePan={false}
-              enableZoom={true}
+              enableZoom
             />
 
             {/* Main light */}
@@ -166,6 +168,7 @@ const App: React.FC = () => {
             gap: 10,
             userSelect: "none",
             touchAction: "none",
+            zIndex: 9999,
           }}
         >
           <div />
@@ -173,20 +176,15 @@ const App: React.FC = () => {
             style={{ fontSize: 24 }}
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
-              window.dispatchEvent(
-                new KeyboardEvent("keydown", { code: "KeyW" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyW" }));
             }}
             onPointerUp={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyW" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyW" }));
               e.currentTarget.releasePointerCapture(e.pointerId);
             }}
             onPointerCancel={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyW" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyW" }));
+              e.currentTarget.releasePointerCapture(e.pointerId);
             }}
           >
             ↑
@@ -197,20 +195,15 @@ const App: React.FC = () => {
             style={{ fontSize: 24 }}
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
-              window.dispatchEvent(
-                new KeyboardEvent("keydown", { code: "KeyA" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyA" }));
             }}
             onPointerUp={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyA" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyA" }));
               e.currentTarget.releasePointerCapture(e.pointerId);
             }}
             onPointerCancel={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyA" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyA" }));
+              e.currentTarget.releasePointerCapture(e.pointerId);
             }}
           >
             ←
@@ -219,20 +212,15 @@ const App: React.FC = () => {
             style={{ fontSize: 24 }}
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
-              window.dispatchEvent(
-                new KeyboardEvent("keydown", { code: "KeyS" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyS" }));
             }}
             onPointerUp={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyS" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyS" }));
               e.currentTarget.releasePointerCapture(e.pointerId);
             }}
             onPointerCancel={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyS" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyS" }));
+              e.currentTarget.releasePointerCapture(e.pointerId);
             }}
           >
             ↓
@@ -241,20 +229,15 @@ const App: React.FC = () => {
             style={{ fontSize: 24 }}
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
-              window.dispatchEvent(
-                new KeyboardEvent("keydown", { code: "KeyD" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keydown", { code: "KeyD" }));
             }}
             onPointerUp={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyD" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyD" }));
               e.currentTarget.releasePointerCapture(e.pointerId);
             }}
             onPointerCancel={(e) => {
-              window.dispatchEvent(
-                new KeyboardEvent("keyup", { code: "KeyD" })
-              );
+              window.dispatchEvent(new KeyboardEvent("keyup", { code: "KeyD" }));
+              e.currentTarget.releasePointerCapture(e.pointerId);
             }}
           >
             →
