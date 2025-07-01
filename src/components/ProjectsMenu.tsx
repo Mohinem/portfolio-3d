@@ -5,6 +5,7 @@ import styles from "../styles/sharedStyles.module.css"; // Import shared styles
 import ProjectCard from "./ProjectCard"; // Import the new ProjectCard component
 import { Project } from '../types/types';
 
+import Soundcloud from '/Projects/soundcloud.png';
 import SoraImage from '/Projects/SoraImage.png';
 import VoronoiImage from '/Projects/Sample Voronoi Diagram.png';
 import ThreeDPortfolioImage from '/Projects/3d-portfolio-image.png';
@@ -23,6 +24,13 @@ type ProjectsMenuProps = {
 
 // Sample list of projects
 const projects: Project[] = [
+  {
+    name: "SoundCloud",
+    imageUrl: Soundcloud,
+    description:
+      "My SoundCloud account. I make music here, mostly EDM, but I have also forayed into rap, reggaeton and rock. I use FL Studio to make music. I also generate AI songs once in a while.",
+    githubUrl: "https://soundcloud.com/mohinem-rap-master",
+  },    
   {
     name: "Sora Generated Videos",
     imageUrl: SoraImage,
