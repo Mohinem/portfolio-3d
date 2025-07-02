@@ -7,8 +7,9 @@ import { Project } from '../types/types';
 
 import Soundcloud from '/Projects/soundcloud.png';
 import SoraImage from '/Projects/SoraImage.png';
-import VoronoiImage from '/Projects/Sample Voronoi Diagram.png';
 import ThreeDPortfolioImage from '/Projects/3d-portfolio-image.png';
+import EcoFusionImage from '/Projects/EcoFusion_Screenshot.png';
+import VoronoiImage from '/Projects/Sample Voronoi Diagram.png';
 import FootballImage from '/Projects/Sample Football Image.png';
 import EasyPeasyImage from "/Projects/Easy Peasy Diagram.png";
 import GraphImage from "/Projects/Graph Diagram.png";
@@ -39,18 +40,25 @@ const projects: Project[] = [
     githubUrl: "https://mohinem-sora-videos.blogspot.com/2025/06/5-creative-prompts-and-generated-sora.html",
   },  
   {
-    name: "Voronoi Diagram Generator",
-    imageUrl: VoronoiImage,
-    description:
-      "Python application, developed using Pygame framework, for generating Voronoi diagrams using mouse clicks.",
-    githubUrl: "https://github.com/Mohinem/Voronoi-Diagram-Generator",
-  },
-  {
     name: "Portfolio + 3d Car Environment",
     imageUrl: ThreeDPortfolioImage,
     description:
       "This particular website ! Basically a react application leveraging the power of three.js, React Three Fiber and Drei framework to create an interactive 3d world to get to know me better and drive a car around.",
     githubUrl: "https://github.com/Mohinem/portfolio-3d",
+  },
+  {
+    name: "EcoFusion",
+    imageUrl: EcoFusionImage,
+    description:
+      "A platform to improve sustainability by providing access to nutritious food, clean water and energy. Handled everything frontend using React and React Three-fiber, ensuring excellent UI and UX.",
+    githubUrl: "https://ecofusion.vercel.app/",
+  },
+  {
+    name: "Voronoi Diagram Generator",
+    imageUrl: VoronoiImage,
+    description:
+      "Python application, developed using Pygame framework, for generating Voronoi diagrams using mouse clicks.",
+    githubUrl: "https://github.com/Mohinem/Voronoi-Diagram-Generator",
   },
   {
     name: "Computer Vision - Best Performing Model in production",
