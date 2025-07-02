@@ -13,6 +13,8 @@ import VoronoiImage from '/Projects/Sample Voronoi Diagram.png';
 import FootballImage from '/Projects/Sample Football Image.png';
 import EasyPeasyImage from "/Projects/Easy Peasy Diagram.png";
 import GraphImage from "/Projects/Graph Diagram.png";
+import MultiAgentImage from "/Projects/MultiAgentImage.png";
+import NeuraviaImage from "/Projects/NeuraviaLogo.jpeg";
 
 
 type ProjectsMenuProps = {
@@ -81,6 +83,20 @@ const projects: Project[] = [
       "A highly-optimized library programmed in pure C++ for use in programming competitions. It contains efficient implementations of complex data structures and algorithms.",
     githubUrl: "https://github.com/Mohinem/CP-Library",
   },    
+  {
+    name: "MultiAgent",
+    imageUrl: MultiAgentImage,
+    description:
+      "Collaborated on a system that runs multiple AI “agents” in sequence to polish answers until they settle on the best version.",
+    githubUrl: "https://github.com/sahil-lab/multiAgentSystem",
+  },      
+  {
+    name: "NeuraVia",
+    imageUrl: NeuraviaImage,
+    description:
+      "Currently volunteering with a non-profit organization seeking to develop AI models to track Alzheimer's progression. Currently outreaching neurology professionals.",
+    githubUrl: "https://neuravia.tech/",
+  },     
   // Add more projects as needed
 ];
 
