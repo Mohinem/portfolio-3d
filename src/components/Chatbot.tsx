@@ -41,7 +41,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
 
-  // scroll to bottom when messages change
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, minimized]);
@@ -76,7 +75,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
       onCloseMenu();
       return "↩️ Going back.";
     }
-    return "❓ Sorry, I didn’t understand. Try one of those keywords or 'back'.";
+    return "❓ Sorry, I didn’t understand. Try one of those keywords.";
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -85,10 +84,8 @@ const Chatbot: React.FC<ChatbotProps> = ({
     if (!txt) return;
     setMessages((m) => [...m, { sender: "user", text: txt }]);
     setInput("");
-    // bot reply
     setTimeout(() => {
-      const reply = parseAndRespond(txt);
-      setMessages((m) => [...m, { sender: "bot", text: reply }]);
+      setMessages((m) => [...m, { sender: "bot", text: parseAndRespond(txt) }]);
     }, 200);
   };
 
@@ -101,7 +98,7 @@ const Chatbot: React.FC<ChatbotProps> = ({
         bottom: 24,
         right: 24,
         width: minimized ? 60 : 320,
-        height: minimized ? 60 : 400,
+        height: minimized ? 80 : 400,
         background: "#222",
         color: "#fff",
         borderRadius: 12,
@@ -118,41 +115,85 @@ const Chatbot: React.FC<ChatbotProps> = ({
         onClick={minimized ? onMinimize : undefined}
         style={{
           background: "#333",
-          height: 40,
           display: "flex",
+          flexDirection: minimized ? "column" : "row",
           alignItems: "center",
-          justifyContent: minimized ? "center" : "space-between",
-          padding: minimized ? 0 : "0 8px",
+          justifyContent: minimized ? "space-around" : "space-between",
+          padding: minimized ? "4px 0" : "0 8px",
+          height: 40,
           cursor: minimized ? "pointer" : "default",
         }}
       >
         {!minimized && <strong>🤖 Chatbot</strong>}
-        <div style={{ display: "flex", gap: 8 }}>
-          <button
-            onClick={onMinimize}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#fff",
-              fontSize: 16,
-              cursor: "pointer",
-            }}
-          >
-            {minimized ? "🔼" : "_"}
-          </button>
-          <button
-            onClick={onClose}
-            style={{
-              background: "none",
-              border: "none",
-              color: "#fff",
-              fontSize: 18,
-              cursor: "pointer",
-            }}
-          >
-            ×
-          </button>
-        </div>
+        {minimized ? (
+          <>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onMinimize();
+              }}
+              aria-label="Maximize"
+              style={{
+                background: "none",
+                border: "none",
+                color: "#fff",
+                fontSize: 18,
+                cursor: "pointer",
+                lineHeight: 1,
+              }}
+            >
+              🔼
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onClose();
+              }}
+              aria-label="Close"
+              style={{
+                background: "none",
+                border: "none",
+                color: "#fff",
+                fontSize: 18,
+                cursor: "pointer",
+                lineHeight: 1,
+              }}
+            >
+              ×
+            </button>
+          </>
+        ) : (
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              onClick={onMinimize}
+              aria-label="Minimize"
+              style={{
+                background: "none",
+                border: "none",
+                color: "#fff",
+                fontSize: 16,
+                cursor: "pointer",
+                lineHeight: 1,
+              }}
+            >
+              _
+            </button>
+            <button
+              onClick={onClose}
+              aria-label="Close"
+              style={{
+                background: "none",
+                border: "none",
+                color: "#fff",
+                fontSize: 18,
+                cursor: "pointer",
+                lineHeight: 1,
+              }}
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
 
       {/* BODY */}
@@ -185,7 +226,6 @@ const Chatbot: React.FC<ChatbotProps> = ({
             ))}
             <div ref={endRef} />
           </div>
-
           <form
             onSubmit={handleSubmit}
             style={{
