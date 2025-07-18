@@ -110,7 +110,6 @@ const App: React.FC = () => {
     setExperienceMenuOpen(false);
     setProjectsMenuOpen(false);
     setAchievementsMenuOpen(false);
-    setChatReset(c => c + 1);
   };
 
   // ——— New: handler for Chatbot suggestion clicks ———
