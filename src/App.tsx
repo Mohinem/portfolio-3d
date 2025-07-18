@@ -100,7 +100,7 @@ const App: React.FC = () => {
   const [isAchievementsMenuOpen, setAchievementsMenuOpen] = useState(false);
   const [isChatbotOpen, setChatbotOpen] = useState(false);
   const [isChatbotMinimized, setChatbotMinimized] = useState(false);
-  const [chatReset, setChatReset] = useState(0);
+  // const [chatReset, setChatReset] = useState(0);
 
   // ——— New: helper to close all menus ———
   const closeAllMenus = () => {
