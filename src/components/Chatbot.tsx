@@ -1,19 +1,7 @@
-// Chatbot.tsx
-import React, { useState, useEffect } from "react";
+// src/components/Chatbot.tsx
+import React, { useState, useEffect, useRef } from "react";
 
-interface ChatbotProps {
-  open: boolean;
-  minimized: boolean;
-  onClose: () => void;
-  onMinimize: () => void;
-  /** Called when the user picks one of the six menus (or music player) */
-  onOpenMenu: (menuKey: MenuKey) => void;
-  /** Called to close whichever menu is currently open */
-  onCloseMenu: () => void;
-  resetChat?: number;
-}
-
-type MenuKey = 
+export type MenuKey =
   | "music"
   | "about"
   | "education"
@@ -21,14 +9,19 @@ type MenuKey =
   | "projects"
   | "achievements";
 
-const menuLabels: Record<MenuKey,string> = {
-  music:       "Play Music",
-  about:       "About Me",
-  education:   "Education",
-  experience:  "Experience",
-  projects:    "Projects",
-  achievements:"Achievements",
-};
+interface ChatbotProps {
+  open: boolean;
+  minimized: boolean;
+  onClose: () => void;
+  onMinimize: () => void;
+  onOpenMenu: (menuKey: MenuKey) => void;
+  onCloseMenu: () => void;
+}
+
+interface Message {
+  sender: "user" | "bot";
+  text: string;
+}
 
 const Chatbot: React.FC<ChatbotProps> = ({
   open,
@@ -37,22 +30,66 @@ const Chatbot: React.FC<ChatbotProps> = ({
   onMinimize,
   onOpenMenu,
   onCloseMenu,
-  resetChat,
 }) => {
-  const [activeMenu, setActiveMenu] = useState<MenuKey | null>(null);
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      sender: "bot",
+      text:
+        "👋 Hello! I’m your portfolio assistant. Ask me to open “music”, “about me”, “education”, “experience”, “projects”, or “achievements.”",
+    },
+  ]);
+  const [input, setInput] = useState("");
+  const endRef = useRef<HTMLDivElement>(null);
 
-// whenever parent bumps resetChat, clear our internal menu
-useEffect(() => {
-  setActiveMenu(null);
-}, [resetChat]);
+  // scroll to bottom when messages change
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, minimized]);
 
-  const handleSelect = (key: MenuKey) => {
-    setActiveMenu(key);
-    onOpenMenu(key);
+  const parseAndRespond = (text: string): string => {
+    const lc = text.toLowerCase();
+    if (lc.includes("music")) {
+      onOpenMenu("music");
+      return "🎵 Opening Music Player.";
+    }
+    if (lc.includes("about")) {
+      onOpenMenu("about");
+      return "👤 Showing About Me.";
+    }
+    if (lc.includes("education")) {
+      onOpenMenu("education");
+      return "📚 Here’s Education.";
+    }
+    if (lc.includes("experience")) {
+      onOpenMenu("experience");
+      return "💼 Displaying Experience.";
+    }
+    if (lc.includes("projects")) {
+      onOpenMenu("projects");
+      return "🛠️ Listing Projects.";
+    }
+    if (lc.includes("achievements")) {
+      onOpenMenu("achievements");
+      return "🏆 Loading Achievements.";
+    }
+    if (/\b(back|close|exit)\b/.test(lc)) {
+      onCloseMenu();
+      return "↩️ Going back.";
+    }
+    return "❓ Sorry, I didn’t understand. Try one of those keywords or 'back'.";
   };
-  const handleBack = () => {
-    setActiveMenu(null);
-    onCloseMenu();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const txt = input.trim();
+    if (!txt) return;
+    setMessages((m) => [...m, { sender: "user", text: txt }]);
+    setInput("");
+    // bot reply
+    setTimeout(() => {
+      const reply = parseAndRespond(txt);
+      setMessages((m) => [...m, { sender: "bot", text: reply }]);
+    }, 200);
   };
 
   if (!open) return null;
@@ -67,98 +104,125 @@ useEffect(() => {
         height: minimized ? 60 : 400,
         background: "#222",
         color: "#fff",
-        borderRadius: 16,
-        boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
-        zIndex: 10000,
-        overflow: "hidden",
-        transition: "width 0.2s, height 0.2s",
+        borderRadius: 12,
+        boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
         display: "flex",
         flexDirection: "column",
+        overflow: "hidden",
+        transition: "width 0.2s, height 0.2s",
+        zIndex: 10000,
       }}
     >
-      {/* Header */}
+      {/* HEADER */}
       <div
+        onClick={minimized ? onMinimize : undefined}
         style={{
+          background: "#333",
+          height: 40,
           display: "flex",
           alignItems: "center",
           justifyContent: minimized ? "center" : "space-between",
-          background: "#333",
-          padding: minimized ? 0 : "8px 16px",
-          height: 48,
-          cursor: minimized ? "pointer" : undefined,
+          padding: minimized ? 0 : "0 8px",
+          cursor: minimized ? "pointer" : "default",
         }}
-        onClick={minimized ? onMinimize : undefined}
       >
-        {!minimized && <strong>🤖 Chatbot Assistant</strong>}
-        <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
+        {!minimized && <strong>🤖 Chatbot</strong>}
+        <div style={{ display: "flex", gap: 8 }}>
           <button
-            aria-label="Minimize"
             onClick={onMinimize}
-            style={{ background: "none", border: "none", color: "#fff", fontSize: 18 }}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#fff",
+              fontSize: 16,
+              cursor: "pointer",
+            }}
           >
             {minimized ? "🔼" : "_"}
           </button>
           <button
-            aria-label="Close"
             onClick={onClose}
-            style={{ background: "none", border: "none", color: "#fff", fontSize: 18 }}
+            style={{
+              background: "none",
+              border: "none",
+              color: "#fff",
+              fontSize: 18,
+              cursor: "pointer",
+            }}
           >
             ×
           </button>
         </div>
       </div>
 
-      {/* Body */}
+      {/* BODY */}
       {!minimized && (
-        <div style={{ flex: 1, padding: 16, display: "flex", flexDirection: "column" }}>
-          {activeMenu === null ? (
-            <>
-              <p style={{ marginBottom: 12 }}>Hi! 👋 Need help navigating my portfolio?</p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                {(
-                  Object.keys(menuLabels) as MenuKey[]
-                ).map((key) => (
-                  <button
-                    key={key}
-                    onClick={() => handleSelect(key)}
-                    style={{
-                      background: "#444",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: 8,
-                      padding: "8px 12px",
-                      textAlign: "left",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {menuLabels[key]}
-                  </button>
-                ))}
-              </div>
-            </>
-          ) : (
-            <>
-              <button
-                onClick={handleBack}
+        <>
+          <div
+            style={{
+              flex: 1,
+              padding: 8,
+              overflowY: "auto",
+              display: "flex",
+              flexDirection: "column",
+              gap: 6,
+            }}
+          >
+            {messages.map((m, i) => (
+              <div
+                key={i}
                 style={{
-                  background: "none",
-                  border: "none",
-                  color: "#66BB6A",
-                  cursor: "pointer",
-                  marginBottom: 8,
+                  alignSelf: m.sender === "user" ? "flex-end" : "flex-start",
+                  background: m.sender === "user" ? "#4a90e2" : "#555",
+                  padding: "6px 10px",
+                  borderRadius: 12,
+                  maxWidth: "80%",
+                  wordBreak: "break-word",
                 }}
               >
-                ← Back
-              </button>
-              <div style={{ flex: 1 }}>
-                {/* We don’t render the menu itself here; the parent will */}
-                <p style={{ fontStyle: "italic" }}>
-                  Opening “{menuLabels[activeMenu]}”…
-                </p>
+                {m.text}
               </div>
-            </>
-          )}
-        </div>
+            ))}
+            <div ref={endRef} />
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              padding: 8,
+              borderTop: "1px solid #444",
+            }}
+          >
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type a command…"
+              style={{
+                flex: 1,
+                padding: 6,
+                borderRadius: 4,
+                border: "none",
+                marginRight: 6,
+                background: "#333",
+                color: "#fff",
+              }}
+            />
+            <button
+              type="submit"
+              style={{
+                padding: "6px 12px",
+                background: "#4a90e2",
+                border: "none",
+                borderRadius: 4,
+                color: "#fff",
+                cursor: "pointer",
+              }}
+            >
+              Send
+            </button>
+          </form>
+        </>
       )}
     </div>
   );
