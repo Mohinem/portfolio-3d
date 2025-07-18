@@ -140,9 +140,9 @@ const App: React.FC = () => {
     }
   };
 
-  // Show chatbot after 10 seconds
+  // Show chatbot after 20 seconds
   useEffect(() => {
-    const timer = setTimeout(() => setChatbotOpen(true), 10000);
+    const timer = setTimeout(() => setChatbotOpen(true), 20000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -319,7 +319,6 @@ const App: React.FC = () => {
           onMinimize={() => setChatbotMinimized((m) => !m)}
           onOpenMenu={handleOpenMenu}
           onCloseMenu={closeAllMenus}
-          resetChat={chatReset}
         />
       )}
     </>
