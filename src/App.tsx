@@ -14,6 +14,16 @@ import ExperienceMenu from "./components/ExperienceMenu";
 import ProjectsMenu from "./components/ProjectsMenu";
 import AchievementsMenu from "./components/AchievementsMenu";
 import LoadingScreen from "./components/LoadingScreen";
+import Chatbot from "./components/Chatbot";
+
+// Add MenuKey type above App component
+type MenuKey =
+  | "music"
+  | "about"
+  | "education"
+  | "experience"
+  | "projects"
+  | "achievements";
 
 // 1) Hook to load Montserrat SemiBold from /fonts
 function useFont() {
@@ -88,6 +98,53 @@ const App: React.FC = () => {
   const [isExperienceMenuOpen, setExperienceMenuOpen] = useState(false);
   const [isProjectsMenuOpen, setProjectsMenuOpen] = useState(false);
   const [isAchievementsMenuOpen, setAchievementsMenuOpen] = useState(false);
+  const [isChatbotOpen, setChatbotOpen] = useState(false);
+  const [isChatbotMinimized, setChatbotMinimized] = useState(false);
+  const [chatReset, setChatReset] = useState(0);
+
+  // ——— New: helper to close all menus ———
+  const closeAllMenus = () => {
+    setMusicPlayerOpen(false);
+    setAboutMeMenuOpen(false);
+    setEducationMenuOpen(false);
+    setExperienceMenuOpen(false);
+    setProjectsMenuOpen(false);
+    setAchievementsMenuOpen(false);
+    setChatReset(c => c + 1);
+  };
+
+  // ——— New: handler for Chatbot suggestion clicks ———
+  const handleOpenMenu = (key: MenuKey) => {
+    closeAllMenus();
+    switch (key) {
+      case "music":
+        setMusicPlayerOpen(true);
+        break;
+      case "about":
+        setAboutMeMenuOpen(true);
+        break;
+      case "education":
+        setEducationMenuOpen(true);
+        break;
+      case "experience":
+        setExperienceMenuOpen(true);
+        break;
+      case "projects":
+        setProjectsMenuOpen(true);
+        break;
+      case "achievements":
+        setAchievementsMenuOpen(true);
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Show chatbot after 10 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setChatbotOpen(true), 10000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // detect touch device
   const [isMobile, setIsMobile] = useState(false);
@@ -252,6 +309,19 @@ const App: React.FC = () => {
       {isExperienceMenuOpen && <ExperienceMenu onClose={() => setExperienceMenuOpen(false)} />}
       {isProjectsMenuOpen && <ProjectsMenu onClose={() => setProjectsMenuOpen(false)} />}
       {isAchievementsMenuOpen && <AchievementsMenu onClose={() => setAchievementsMenuOpen(false)} />}
+
+      {/* Chatbot at bottom right — only on desktop */}
+      {!isMobile && (
+        <Chatbot
+          open={isChatbotOpen}
+          minimized={isChatbotMinimized}
+          onClose={() => setChatbotOpen(false)}
+          onMinimize={() => setChatbotMinimized((m) => !m)}
+          onOpenMenu={handleOpenMenu}
+          onCloseMenu={closeAllMenus}
+          resetChat={chatReset}
+        />
+      )}
     </>
   );
 };
