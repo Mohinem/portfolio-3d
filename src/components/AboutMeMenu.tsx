@@ -39,10 +39,10 @@ const AboutMeMenu: React.FC<AboutMeMenuProps> = ({ onClose /*, trackUrl */ }) =>
               I completed my Bachelor's Degree in Information Technology from Pune University and have around 3.5 years of experience in software development and research.
               <br />
               <br />
-              There was a time when I competed and enjoyed competing in programming competitions. Today, I'm more interested in real-life applications and research. Generative AI has taken over the storm recently; I have wholeheartedly embraced AI in my daily life, and successfully automate my tasks on ChatGPT ! I am committed to achieve my objectives with the least amount of extremely high quality prompts. It helped me learn three.js from scratch, and this website is a successful outcome of my learnings.
+              There was a time when I competed and enjoyed competing in programming competitions. Today, I'm more interested in real-life applications and research. Generative AI has taken over the storm recently; I have wholeheartedly embraced AI in my daily life, and successfully automate my tasks on ChatGPT ! I am committed to achieve my objectives with the least amount of extremely high quality prompts. It helped me learn things from scratch, and this website is a successful outcome of my learnings.
               <br />
               <br />
-              I also make music, sometimes. I am decently good at making EDM tracks; please check the building named 'Music' !
+              Alongside this, I am also a music producer and actively work on building my own sound and tracks using tools like FL Studio and REAPER. Over time, this interest has evolved into developing audio software as well. I build audio plugins using the JUCE framework in C++, focusing on synthesizers and sound design tools. One of my key projects is Acid Ladder VST, a synthesizer plugin inspired by classic analog acid basslines, built completely from scratch. I am also working on additional JUCE-based plugins under my own label, exploring synthesis, modulation systems, and creative audio workflows.
               <br />
               <br />
               With the completion of my course, I'm open to work! I have an equal command over Python and C++ programming languages. I'm decently strong with Java and JavaScript. My Masters' Thesis involved object-oriented programming with the Eiffel programming language. If you have an interesting job opportunity for me, hit me up!
