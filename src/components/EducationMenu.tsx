@@ -18,6 +18,14 @@ type EducationMenuProps = {
 // Sample list of educations
 const educations: Education[] = [
   {
+    degree: "Master of Business Administration (MBA)",
+    university: "Indian Institute of Management Raipur",
+    duration: "2026-2028 (Currently Pursuing)",
+    description:
+      "Currently pursuing an MBA at IIM Raipur, with coursework spanning core areas of management including marketing, finance, operations, economics, organizational behavior, business analytics, and strategy.",
+    // imageUrl: IIMRaipurImage,
+  }, 
+  {
     degree: "Masters of Science - Computer Science Software Engineering",
     university: "Constructor University",
     duration: "2023-2024",
